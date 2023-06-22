@@ -10,6 +10,7 @@ import com.peaksoft.lms.services.AccountService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,7 @@ public class AccountServiceImpl implements AccountService {
     private final AccountRepository repository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+
     @Override
     public AuthResponse signUp(AuthRequest request) {
         String encodedPass = passwordEncoder.encode(request.getPassword());
@@ -43,7 +45,14 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AuthResponse signIn(AuthRequest request) {
-        return null;
+        Account account = repository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        String token = jwtService.generateToken(account);
+        return AuthResponse.builder()
+                .email(account.getEmail())
+                .role(account.getRole())
+                .token(token)
+                .build();
     }
 
     @Override
