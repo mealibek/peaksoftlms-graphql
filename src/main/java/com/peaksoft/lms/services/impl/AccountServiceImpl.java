@@ -10,10 +10,13 @@ import com.peaksoft.lms.services.AccountService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -24,6 +27,7 @@ public class AccountServiceImpl implements AccountService {
     private final AccountRepository repository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
 
     @Override
     public AuthResponse signUp(AuthRequest request) {
@@ -45,13 +49,19 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AuthResponse signIn(AuthRequest request) {
-        Account account = repository.findByEmail(request.getEmail())
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(),
+                        request.getPassword()
+                )
+        );
+        var user = repository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        String token = jwtService.generateToken(account);
+        var jwtToken = jwtService.generateToken(user);
         return AuthResponse.builder()
-                .email(account.getEmail())
-                .role(account.getRole())
-                .token(token)
+                .email(user.getEmail())
+                .role(user.getRole())
+                .token(jwtToken)
                 .build();
     }
 

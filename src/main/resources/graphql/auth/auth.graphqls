@@ -16,7 +16,7 @@ type AuthResponse {
 }
 
 type Mutation {
-signUp(auth:AuthRequest!) : AuthResponse!
-signIn(auth:AuthRequest!) : AuthResponse!
+    signUp(request:AuthRequest!) : AuthResponse!
+    signIn(request:AuthRequest!) : AuthResponse!
 }
 
