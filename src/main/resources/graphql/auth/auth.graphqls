@@ -1,0 +1,16 @@
+input AuthRequest {
+    email: String!
+    password: String!
+}
+
+enum Role {
+    ADMIN
+    INSTRUCTOR
+    STUDENT
+}
+
+type AuthResponse {
+    token: String!
+    email: String!
+    role: Role!
+}
