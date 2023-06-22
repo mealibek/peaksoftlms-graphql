@@ -21,7 +21,7 @@ import static jakarta.persistence.CascadeType.REFRESH;
 public class Account {
     @Id
     @GeneratedValue(generator = "account_id_gen", strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "account_id_gen", sequenceName = "account_id_seq", allocationSize = 1)
+    @SequenceGenerator(name = "account_id_gen", sequenceName = "account_id_seq", allocationSize = 1,initialValue = 8)
     private Long id;
     @OneToOne(cascade = CascadeType.ALL)
     private User user;

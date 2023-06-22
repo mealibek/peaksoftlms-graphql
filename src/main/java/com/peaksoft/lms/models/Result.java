@@ -15,7 +15,7 @@ import static jakarta.persistence.CascadeType.*;
 public class Result {
     @Id
     @GeneratedValue(generator = "result_id_gen",strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "result_id_gen",sequenceName = "result_id_seq",allocationSize = 1)
+    @SequenceGenerator(name = "result_id_gen",sequenceName = "result_id_seq",allocationSize = 1,initialValue = 5)
     private Long id;
     private Integer countCorrect;
     private Integer countInCorrect;

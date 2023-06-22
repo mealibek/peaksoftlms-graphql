@@ -16,7 +16,7 @@ import static jakarta.persistence.CascadeType.*;
 public class File {
     @Id
     @GeneratedValue(generator = "file_id_gen",strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "file_id_gen",sequenceName = "file_id_seq",allocationSize = 1)
+    @SequenceGenerator(name = "file_id_gen",sequenceName = "file_id_seq",allocationSize = 1,initialValue = 11)
     private Long id;
     private String url;
     @Enumerated(EnumType.STRING)
