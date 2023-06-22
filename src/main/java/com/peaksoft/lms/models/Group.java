@@ -19,7 +19,7 @@ import static jakarta.persistence.CascadeType.*;
 public class Group {
     @Id
     @GeneratedValue(generator = "group_id_gen", strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "group_id_gen", sequenceName = "group_id_seq", allocationSize = 1)
+    @SequenceGenerator(name = "group_id_gen", sequenceName = "group_id_seq", allocationSize = 1,initialValue = 5)
     private Long id;
     private String name;
     private String description;
@@ -33,6 +33,8 @@ public class Group {
     private List<Account> instructors;
     @ManyToOne(cascade = {PERSIST, REFRESH, MERGE, DETACH})
     private Course course;
+    @OneToMany(cascade = ALL,mappedBy = "group")
+    private List<Lesson> lessons;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 

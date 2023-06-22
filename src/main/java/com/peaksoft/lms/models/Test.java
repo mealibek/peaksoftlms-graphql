@@ -20,12 +20,11 @@ import static jakarta.persistence.CascadeType.*;
 public class Test {
     @Id
     @GeneratedValue(generator = "test_id_gen",strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "test_id_gen",sequenceName = "test_id_seq",allocationSize = 1)
+    @SequenceGenerator(name = "test_id_gen",sequenceName = "test_id_seq",allocationSize = 1,initialValue = 5)
     private Long id;
     private String name;
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "test")
     private List<Question> questions;
-    private LocalDate date;
     @OneToOne(cascade = {PERSIST,MERGE,DETACH,REFRESH},mappedBy = "test")
     private Lesson lesson;
     private LocalDateTime createdAt;

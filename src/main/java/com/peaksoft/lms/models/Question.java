@@ -18,7 +18,7 @@ import static jakarta.persistence.CascadeType.*;
 public class Question {
     @Id
     @GeneratedValue(generator = "question_id_gen",strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "question_id_gen",sequenceName = "question_id_seq",allocationSize = 1)
+    @SequenceGenerator(name = "question_id_gen",sequenceName = "question_id_seq",allocationSize = 1,initialValue = 9)
     private Long id;
     private String name;
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "question")
