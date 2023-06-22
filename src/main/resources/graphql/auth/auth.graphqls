@@ -14,3 +14,9 @@ type AuthResponse {
     email: String!
     role: Role!
 }
+
+type Mutation {
+signUp(auth:AuthRequest!) : AuthResponse!
+signIn(auth:AuthRequest!) : AuthResponse!
+}
+
