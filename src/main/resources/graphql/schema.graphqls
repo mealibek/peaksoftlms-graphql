@@ -1,0 +1,9 @@
+type Mutation {
+    signUp(auth : AuthRequest!) : AuthResponse!
+}
+
+type Query {
+    get:[Account]
+}
+
+
