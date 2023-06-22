@@ -19,11 +19,11 @@ import static jakarta.persistence.CascadeType.*;
 public class Lesson {
     @Id
     @GeneratedValue(generator = "lesson_id_gen",strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "lesson_id_gen",sequenceName = "lesson_id_seq",allocationSize = 1)
+    @SequenceGenerator(name = "lesson_id_gen",sequenceName = "lesson_id_seq",allocationSize = 1,initialValue = 5)
     private Long id;
     private String name;
     @ManyToOne(cascade = {PERSIST,REFRESH,DETACH,MERGE})
-    private Course course;
+    private Group group;
     @OneToMany(mappedBy = "lesson",cascade = ALL)
     private List<VideoLesson> videoLesson;
     @OneToMany(cascade = ALL,mappedBy = "lesson")

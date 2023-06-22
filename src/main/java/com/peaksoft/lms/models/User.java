@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class User {
     @Id
     @GeneratedValue(generator = "user_id_gen",strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "user_id_gen",sequenceName = "user_id_seq",allocationSize = 1)
+    @SequenceGenerator(name = "user_id_gen",sequenceName = "user_id_seq",allocationSize = 1,initialValue = 8)
     private Long id;
     @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
     private Account account;

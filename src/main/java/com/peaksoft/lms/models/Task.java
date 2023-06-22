@@ -18,7 +18,7 @@ import static jakarta.persistence.CascadeType.*;
 public class Task {
     @Id
     @GeneratedValue(generator = "task_id_gen",strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "task_id_gen",sequenceName = "task_id_seq",allocationSize = 1)
+    @SequenceGenerator(name = "task_id_gen",sequenceName = "task_id_seq",allocationSize = 1,initialValue = 5)
     private  Long id;
     private String name;
     private String description;
