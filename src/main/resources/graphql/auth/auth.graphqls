@@ -15,8 +15,21 @@ type AuthResponse {
     role: Role!
 }
 
+input ForgotRequest {
+    email: String!
+    linkResetPassword: String!
+}
+
+input ResetRequest {
+    resetPasswordToken: String!
+    newPassword: String!
+    confirmPassword: String!
+}
+
 type Mutation {
     signUp(request:AuthRequest!) : AuthResponse!
     signIn(request:AuthRequest!) : AuthResponse!
+    forgotPassword(request:ForgotRequest!) : AuthResponse
+    resetPassword(request:ResetRequest!) : AuthResponse
 }
 
