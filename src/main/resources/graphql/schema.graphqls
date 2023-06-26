@@ -1,6 +1,6 @@
 
 type Query {
-    get:[Account]
+    test:String
 }
 
 

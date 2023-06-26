@@ -2,11 +2,17 @@ package com.peaksoft.lms.services.impl;
 
 import com.peaksoft.lms.config.jwt.JwtService;
 import com.peaksoft.lms.dto.requests.auth.AuthRequest;
+import com.peaksoft.lms.dto.requests.auth.ForgotRequest;
+import com.peaksoft.lms.dto.requests.auth.ResetRequest;
 import com.peaksoft.lms.dto.responses.auth.AuthResponse;
 import com.peaksoft.lms.enums.Role;
+import com.peaksoft.lms.exceptions.BadRequestException;
+import com.peaksoft.lms.exceptions.NotFoundException;
 import com.peaksoft.lms.models.Account;
+import com.peaksoft.lms.models.User;
 import com.peaksoft.lms.repositories.AccountRepository;
 import com.peaksoft.lms.services.AccountService;
+import com.peaksoft.lms.services.EmailService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,9 +21,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +38,8 @@ public class AccountServiceImpl implements AccountService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final EmailService emailService;
+    private final TemplateEngine templateEngine;
 
     @Override
     public AuthResponse signUp(AuthRequest request) {
@@ -66,7 +78,58 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<Account> get() {
-        return repository.findAll();
+    public AuthResponse forgotPassword(ForgotRequest request) {
+
+        String resetToken = UUID.randomUUID().toString();
+
+        Account account = repository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new NotFoundException("User with email %s not found.".formatted(request.getEmail())));
+        account.setResetPasswordToken(resetToken);
+        repository.save(account);
+
+        User user = account.getUser();
+        String userLastName = "";
+        String userFirstName = "";
+        if (user != null) {
+            userLastName = Optional.ofNullable(user.getLastName()).orElse(" ");
+            userFirstName = Optional.ofNullable(user.getFirstName()).orElse(" ");
+        }
+
+        String resetPasswordLink = request.getLinkResetPassword() + "/" + resetToken;
+        String subject = "Password Reset Request";
+        Context context = new Context();
+        context.setVariable("message", "Здраствуйте " + userLastName + " " + userFirstName);
+        context.setVariable("link", resetPasswordLink);
+
+        String htmlContent = templateEngine.process("reset-password-template.html", context);
+
+        emailService.sendEmail(request.getEmail(), subject, htmlContent);
+        return AuthResponse.builder()
+                .email(account.getEmail())
+                .role(account.getRole())
+                .build();
     }
+
+    @Override
+    public AuthResponse resetPassword(ResetRequest request) {
+        Account account = repository.findByResetPasswordToken(request.getResetPasswordToken())
+                .orElseThrow(() -> new NotFoundException("Account with reset password token %s not found."
+                        .formatted(request.getConfirmPassword())));
+
+        if (!request.getNewPassword().equals(request.getConfirmPassword())) {
+            throw new BadRequestException("Sorry, the entered passwords do not match. " +
+                    "Please make sure that the new password and its confirmation match exactly and try again.");
+        }
+
+        String encodedPassword = passwordEncoder.encode(request.getNewPassword());
+        account.setPassword(encodedPassword);
+        account.setResetPasswordToken(null);
+        repository.save(account);
+
+        return AuthResponse.builder()
+                .email(account.getEmail())
+                .role(account.getRole())
+                .build();
+    }
+
 }
