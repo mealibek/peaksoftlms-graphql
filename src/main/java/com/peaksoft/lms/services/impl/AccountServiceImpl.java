@@ -6,6 +6,7 @@ import com.peaksoft.lms.dto.requests.auth.ForgotRequest;
 import com.peaksoft.lms.dto.requests.auth.ResetRequest;
 import com.peaksoft.lms.dto.responses.auth.AuthResponse;
 import com.peaksoft.lms.enums.Role;
+import com.peaksoft.lms.exceptions.AlreadyExistException;
 import com.peaksoft.lms.exceptions.BadRequestException;
 import com.peaksoft.lms.exceptions.NotFoundException;
 import com.peaksoft.lms.models.Account;
@@ -17,15 +18,13 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -43,6 +42,11 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AuthResponse signUp(AuthRequest request) {
+        boolean user = repository.existsAccountByEmail(request.getEmail());
+        if(user) throw new AlreadyExistException(
+                String.format("User with email %s already exists",request.getEmail())
+        );
+
         String encodedPass = passwordEncoder.encode(request.getPassword());
         Account newAccount = Account.builder()
                 .email(request.getEmail())
@@ -61,14 +65,16 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AuthResponse signIn(AuthRequest request) {
+        var user = repository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new BadCredentialsException(
+                        String.format("User with email %s wasn't registered. Please, signIn with active email.",request.getEmail())
+                ));
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
                         request.getPassword()
                 )
         );
-        var user = repository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         var jwtToken = jwtService.generateToken(user);
         return AuthResponse.builder()
                 .email(user.getEmail())
