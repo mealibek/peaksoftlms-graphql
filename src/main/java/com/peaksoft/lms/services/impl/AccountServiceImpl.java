@@ -104,7 +104,7 @@ public class AccountServiceImpl implements AccountService {
         String resetPasswordLink = request.getLinkResetPassword() + "/" + resetToken;
         String subject = "Password Reset Request";
         Context context = new Context();
-        context.setVariable("message", "Здраствуйте " + userLastName + " " + userFirstName);
+        context.setVariable("message", "Hello, " + userLastName + " " + userFirstName +"!");
         context.setVariable("link", resetPasswordLink);
 
         String htmlContent = templateEngine.process("reset-password-template.html", context);

@@ -4,12 +4,14 @@ import com.peaksoft.lms.exceptions.enums.CustomErrorTypes;
 import graphql.GraphQLError;
 import graphql.GraphqlErrorBuilder;
 import graphql.schema.DataFetchingEnvironment;
+import jakarta.validation.ValidationException;
 import lombok.NonNull;
 import org.springframework.graphql.execution.DataFetcherExceptionResolverAdapter;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.stereotype.Component;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 
-@Component
+@ControllerAdvice
 public class CustomExceptionResolver extends DataFetcherExceptionResolverAdapter {
 
     @Override
@@ -31,17 +33,23 @@ public class CustomExceptionResolver extends DataFetcherExceptionResolverAdapter
                     .path(env.getExecutionStepInfo().getPath())
                     .location(env.getField().getSourceLocation())
                     .build();
-        } else if (ex instanceof BadRequestException) {
+        } else if (ex instanceof BadCredentialsException) {
             return GraphqlErrorBuilder.newError()
-                    .errorType(CustomErrorTypes.BAD_REQUEST)
+                    .errorType(CustomErrorTypes.BAD_CREDENTIALS)
                     .message(ex.getMessage())
                     .path(env.getExecutionStepInfo().getPath())
                     .location(env.getField().getSourceLocation())
                     .build();
-        } else if (ex instanceof BadCredentialsException) {
+        } else if (
+                ex instanceof BadRequestException
+                        || ex instanceof MethodArgumentNotValidException
+                || ex instanceof ValidationException
+        ) {
+            String message = ex.getMessage();
+            if(ex instanceof ValidationException) message = ex.getCause().getMessage();
             return GraphqlErrorBuilder.newError()
-                        .errorType(CustomErrorTypes.BAD_CREDENTIALS)
-                    .message(ex.getMessage())
+                    .errorType(CustomErrorTypes.BAD_REQUEST)
+                    .message(message)
                     .path(env.getExecutionStepInfo().getPath())
                     .location(env.getField().getSourceLocation())
                     .build();
