@@ -1,0 +1,37 @@
+input GroupRequest {
+    name: String!
+    description: String!
+    image: String!
+}
+
+enum StudyFormat {
+    ONLINE,
+    OFFLINE
+}
+
+type GroupStudentsResponse {
+    id: ID
+    fullName: String
+    groupName: String
+    studyFormat: StudyFormat
+    phoneNumber: String
+    email: String
+}
+
+type GroupResponse {
+    id: ID
+    name: String
+    students: [GroupStudentsResponse]
+}
+
+type GroupsResponse {
+    id: ID
+    name: String
+    description: String
+    image: String
+    startDate: String
+    finishDate: String
+}
+
+
+

@@ -31,5 +31,6 @@ type Mutation {
     signIn(request:AuthRequest!) : AuthResponse!
     forgotPassword(request:ForgotRequest!) : AuthResponse
     resetPassword(request:ResetRequest!) : AuthResponse
+    save(request: GroupRequest!): GroupResponse!
 }
 
