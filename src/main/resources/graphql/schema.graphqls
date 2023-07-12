@@ -1,6 +1,6 @@
-
 type Query {
-getAll: [GroupsResponse]
+    getAll: [GroupsResponse]
+    getById(id: ID!): GroupResponse
 }
 
 

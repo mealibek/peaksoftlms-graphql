@@ -30,5 +30,18 @@ public class GroupController {
         return groupService.getAll();
     }
 
+    @QueryMapping(name = "getById")
+    public GroupResponse getById(@Argument Long id){
+        return groupService.getById(id);
+    }
 
+    @MutationMapping(name = "update")
+    public GroupResponse update(@Argument Long id,@Argument GroupRequest request){
+        return groupService.update(id,request);
+    }
+
+    @QueryMapping(name = "delete")
+    public GroupResponse delete(@Argument Long id){
+        return groupService.delete(id);
+    }
 }

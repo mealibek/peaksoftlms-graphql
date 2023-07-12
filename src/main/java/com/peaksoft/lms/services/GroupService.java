@@ -10,4 +10,10 @@ public interface GroupService {
     GroupResponse save(GroupRequest request);
 
     List<GroupsResponse> getAll();
+
+    GroupResponse getById(Long id);
+
+    GroupResponse update(Long id, GroupRequest request);
+
+    GroupResponse delete(Long id);
 }

@@ -4,6 +4,7 @@ import com.peaksoft.lms.dto.requests.group.GroupRequest;
 import com.peaksoft.lms.dto.responses.group.GroupResponse;
 import com.peaksoft.lms.dto.responses.group.GroupsResponse;
 import com.peaksoft.lms.enums.FileType;
+import com.peaksoft.lms.exceptions.NotFoundException;
 import com.peaksoft.lms.models.File;
 import com.peaksoft.lms.models.Group;
 import com.peaksoft.lms.repositories.GroupRepository;
@@ -46,5 +47,37 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public List<GroupsResponse> getAll() {
         return repository.getAll();
+    }
+
+    @Override
+    public GroupResponse getById(Long id) {
+        return groupCustomRepository.getGroupById(id);
+    }
+
+    @Override
+    public GroupResponse update(Long id, GroupRequest request) {
+
+        Group group = repository.findById(id).orElseThrow(
+                () -> new NotFoundException("Group with id %s not found.".formatted(id)));
+
+        group.setName(request.getName() != null && !request.getName().equals(group.getName()) ? request.getName() : group.getName());
+        group.setDescription(request.getDescription() != null && !request.getDescription().equals(group.getDescription()) ? request.getDescription() : group.getDescription());
+        group.getFile().setUrl(request.getImage() != null && !request.getImage().equals(group.getFile().getUrl()) ? request.getImage() : group.getFile().getUrl());
+        group.setStartDate(request.getDate() != null && !request.getDate().equals(group.getStartDate()) ? request.getDate() : group.getStartDate());
+        repository.save(group);
+
+        return GroupResponse.builder()
+                .id(group.getId())
+                .name(group.getName())
+                .build();
+    }
+
+    @Override
+    public GroupResponse delete(Long id) {
+        if (!repository.existsById(id)) {
+            throw new NotFoundException("Group with id %s not found.".formatted(id));
+        }
+        repository.deleteById(id);
+        return null;
     }
 }
