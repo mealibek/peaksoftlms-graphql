@@ -1,6 +1,15 @@
 
 type Query {
-    test:String
+    getCourses : [CourseResponse]!
+    getCourseById(id:ID!) : CourseResponse!
+}
+
+type Mutation {
+    # Auth
+    signUp(request:AuthRequest!) : AuthResponse!
+    signIn(request:AuthRequest!) : AuthResponse!
+    forgotPassword(request:ForgotRequest!) : AuthResponse
+    resetPassword(request:ResetRequest!) : AuthResponse
 }
 
 
