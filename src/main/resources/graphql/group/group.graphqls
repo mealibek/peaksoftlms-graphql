@@ -2,6 +2,7 @@ input GroupRequest {
     name: String!
     description: String!
     image: String!
+    startDate: Date!
 }
 
 enum StudyFormat {
@@ -19,18 +20,18 @@ type GroupStudentsResponse {
 }
 
 type GroupResponse {
-    id: ID
-    name: String
+    id: ID!
+    name: String!
     students: [GroupStudentsResponse]
 }
 
 type GroupsResponse {
-    id: ID
-    name: String
-    description: String
-    image: String
-    startDate: String
-    finishDate: String
+    id: ID!
+    name: String!
+    description: String!
+    image: String!
+    startDate: Date!
+    finishDate: Date!
 }
 
 

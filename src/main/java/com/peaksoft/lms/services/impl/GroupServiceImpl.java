@@ -35,7 +35,8 @@ public class GroupServiceImpl implements GroupService {
                         .fileType(FileType.IMAGE)
                         .url(request.getImage())
                         .build())
-//                .startDate(request.getDate())
+                .startDate(request.getStartDate())
+                .finishDate(request.getStartDate().plusMonths(9))
                 .build();
         repository.save(group);
         return GroupResponse.builder()
@@ -63,7 +64,7 @@ public class GroupServiceImpl implements GroupService {
         group.setName(request.getName() != null && !request.getName().equals(group.getName()) ? request.getName() : group.getName());
         group.setDescription(request.getDescription() != null && !request.getDescription().equals(group.getDescription()) ? request.getDescription() : group.getDescription());
         group.getFile().setUrl(request.getImage() != null && !request.getImage().equals(group.getFile().getUrl()) ? request.getImage() : group.getFile().getUrl());
-        group.setStartDate(request.getDate() != null && !request.getDate().equals(group.getStartDate()) ? request.getDate() : group.getStartDate());
+        group.setStartDate(request.getStartDate() != null && !request.getStartDate().equals(group.getStartDate()) ? request.getStartDate() : group.getStartDate());
         repository.save(group);
 
         return GroupResponse.builder()
@@ -73,11 +74,11 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public GroupResponse delete(Long id) {
+    public String delete(Long id) {
         if (!repository.existsById(id)) {
             throw new NotFoundException("Group with id %s not found.".formatted(id));
         }
         repository.deleteById(id);
-        return null;
+        return "Group with id %s successfully deleted.".formatted(id);
     }
 }

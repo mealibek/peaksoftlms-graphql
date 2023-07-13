@@ -1,10 +1,9 @@
-
 type Query {
     getCourses : [CourseResponse]!
     getCourseById(id:ID!) : CourseResponse!
-   # Group
-    getAll: [GroupsResponse]
-    getById(id: ID!): GroupResponse
+    # Group
+    getGroups: [GroupsResponse]
+    getGroupById(id: ID!): GroupResponse
 }
 
 type Mutation {
@@ -13,6 +12,10 @@ type Mutation {
     signIn(request:AuthRequest!) : AuthResponse!
     forgotPassword(request:ForgotRequest!) : AuthResponse
     resetPassword(request:ResetRequest!) : AuthResponse
+    # Group
+    saveGroup(request: GroupRequest!): GroupResponse
+    updateGroup(id: ID!,request: GroupRequest): GroupResponse
+    deleteGroup(id: ID!): String
 }
 
 

@@ -15,5 +15,5 @@ public interface GroupService {
 
     GroupResponse update(Long id, GroupRequest request);
 
-    GroupResponse delete(Long id);
+    String delete(Long id);
 }
