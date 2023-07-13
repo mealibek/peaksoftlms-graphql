@@ -40,13 +40,12 @@ public class CustomExceptionResolver extends DataFetcherExceptionResolverAdapter
                     .path(env.getExecutionStepInfo().getPath())
                     .location(env.getField().getSourceLocation())
                     .build();
-        } else if (
-                ex instanceof BadRequestException
-                        || ex instanceof MethodArgumentNotValidException
-                || ex instanceof ValidationException
-        ) {
+        } else if (ex instanceof BadRequestException
+                || ex instanceof MethodArgumentNotValidException
+                || ex instanceof ValidationException)
+        {
             String message = ex.getMessage();
-            if(ex instanceof ValidationException) message = ex.getCause().getMessage();
+            if (ex instanceof ValidationException) message = ex.getCause().getMessage();
             return GraphqlErrorBuilder.newError()
                     .errorType(CustomErrorTypes.BAD_REQUEST)
                     .message(message)
