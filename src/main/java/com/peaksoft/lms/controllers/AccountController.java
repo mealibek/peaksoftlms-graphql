@@ -24,17 +24,17 @@ public class AccountController {
     }
 
     @MutationMapping(name = "signIn")
-    public AuthResponse signIn(@Argument @Valid AuthRequest request){
+    public AuthResponse signIn(@Argument @Valid AuthRequest request) {
         return accountService.signIn(request);
     }
 
     @MutationMapping
-    public AuthResponse forgotPassword(@Argument @Valid ForgotRequest request){
-    return accountService.forgotPassword(request);
+    public AuthResponse forgotPassword(@Argument @Valid ForgotRequest request) {
+        return accountService.forgotPassword(request);
     }
 
     @MutationMapping
-    public AuthResponse resetPassword(@Argument @Valid ResetRequest request){
+    public AuthResponse resetPassword(@Argument @Valid ResetRequest request) {
         return accountService.resetPassword(request);
     }
 }

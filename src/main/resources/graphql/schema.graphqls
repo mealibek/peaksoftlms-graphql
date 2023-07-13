@@ -1,6 +1,18 @@
+
 type Query {
+    getCourses : [CourseResponse]!
+    getCourseById(id:ID!) : CourseResponse!
+   # Group
     getAll: [GroupsResponse]
     getById(id: ID!): GroupResponse
+}
+
+type Mutation {
+    # Auth
+    signUp(request:AuthRequest!) : AuthResponse!
+    signIn(request:AuthRequest!) : AuthResponse!
+    forgotPassword(request:ForgotRequest!) : AuthResponse
+    resetPassword(request:ResetRequest!) : AuthResponse
 }
 
 

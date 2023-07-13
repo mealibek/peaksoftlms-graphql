@@ -5,6 +5,7 @@ import com.peaksoft.lms.dto.requests.auth.AuthRequest;
 import com.peaksoft.lms.dto.requests.auth.ForgotRequest;
 import com.peaksoft.lms.dto.requests.auth.ResetRequest;
 import com.peaksoft.lms.dto.responses.auth.AuthResponse;
+import com.peaksoft.lms.dto.responses.excel.ExcelResponse;
 import com.peaksoft.lms.enums.Role;
 import com.peaksoft.lms.exceptions.AlreadyExistException;
 import com.peaksoft.lms.exceptions.BadRequestException;
@@ -12,8 +13,11 @@ import com.peaksoft.lms.exceptions.NotFoundException;
 import com.peaksoft.lms.models.Account;
 import com.peaksoft.lms.models.User;
 import com.peaksoft.lms.repositories.AccountRepository;
+import com.peaksoft.lms.repositories.custom.CustomExcelRepository;
 import com.peaksoft.lms.services.AccountService;
 import com.peaksoft.lms.services.EmailService;
+import com.peaksoft.lms.utils.ExportToExcel;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +29,8 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -39,12 +45,13 @@ public class AccountServiceImpl implements AccountService {
     private final AuthenticationManager authenticationManager;
     private final EmailService emailService;
     private final TemplateEngine templateEngine;
+    private final CustomExcelRepository customExcelRepository;
 
     @Override
     public AuthResponse signUp(AuthRequest request) {
         boolean user = repository.existsAccountByEmail(request.getEmail());
-        if(user) throw new AlreadyExistException(
-                String.format("User with email %s already exists",request.getEmail())
+        if (user) throw new AlreadyExistException(
+                String.format("User with email %s already exists", request.getEmail())
         );
 
         String encodedPass = passwordEncoder.encode(request.getPassword());
@@ -67,7 +74,7 @@ public class AccountServiceImpl implements AccountService {
     public AuthResponse signIn(AuthRequest request) {
         var user = repository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new BadCredentialsException(
-                        String.format("User with email %s wasn't registered. Please, signIn with active email.",request.getEmail())
+                        String.format("User with email %s wasn't registered. Please, signIn with active email.", request.getEmail())
                 ));
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -104,7 +111,7 @@ public class AccountServiceImpl implements AccountService {
         String resetPasswordLink = request.getLinkResetPassword() + "/" + resetToken;
         String subject = "Password Reset Request";
         Context context = new Context();
-        context.setVariable("message", "Hello, " + userLastName + " " + userFirstName +"!");
+        context.setVariable("message", "Hello, " + userLastName + " " + userFirstName + "!");
         context.setVariable("link", resetPasswordLink);
 
         String htmlContent = templateEngine.process("reset-password-template.html", context);
@@ -136,6 +143,14 @@ public class AccountServiceImpl implements AccountService {
                 .email(account.getEmail())
                 .role(account.getRole())
                 .build();
+    }
+
+    @Override
+    public List<ExcelResponse> exportStudentToExcel(HttpServletResponse response) throws IOException {
+        List<ExcelResponse> students = customExcelRepository.getAllExportExcelStudents();
+        ExportToExcel exportToExcel = new ExportToExcel(students);
+        exportToExcel.exportDataToExcel(response);
+        return students;
     }
 
 }

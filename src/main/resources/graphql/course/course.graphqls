@@ -1,0 +1,14 @@
+scalar Date
+
+type CourseResponse {
+    id:ID
+    name:String
+    description:String
+    startDate:Date
+}
+
+input CourseRequest {
+    name:String!
+    description:String!
+    startDate:Date!
+}
