@@ -6,7 +6,7 @@ import com.peaksoft.lms.exceptions.AlreadyExistException;
 import com.peaksoft.lms.exceptions.NotFoundException;
 import com.peaksoft.lms.models.Course;
 import com.peaksoft.lms.repositories.CourseRepository;
-import com.peaksoft.lms.repositories.custom.CustomCourseRepository;
+import com.peaksoft.lms.repositories.custom.impl.CustomCourseRepositoryImpl;
 import com.peaksoft.lms.services.CourseService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ import java.util.List;
 @Slf4j
 public class CourseServiceImpl implements CourseService {
     private final CourseRepository repository;
-    private final CustomCourseRepository customRepository;
+    private final CustomCourseRepositoryImpl customRepository;
 
     @Override
     public CourseResponse save(CourseRequest request) {
