@@ -74,8 +74,9 @@ public class AccountServiceImpl implements AccountService {
     public AuthResponse signIn(AuthRequest request) {
         var user = repository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new BadCredentialsException(
-                        String.format("User with email %s wasn't registered. Please, signIn with active email.", request.getEmail())
+                        String.format("Email %s is not registered!", request.getEmail())
                 ));
+
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
