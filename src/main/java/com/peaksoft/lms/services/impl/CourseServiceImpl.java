@@ -3,6 +3,7 @@ package com.peaksoft.lms.services.impl;
 import com.peaksoft.lms.dto.requests.course.CourseRequest;
 import com.peaksoft.lms.dto.responses.course.CourseResponse;
 import com.peaksoft.lms.exceptions.AlreadyExistException;
+import com.peaksoft.lms.exceptions.NotFoundException;
 import com.peaksoft.lms.models.Course;
 import com.peaksoft.lms.repositories.CourseRepository;
 import com.peaksoft.lms.repositories.custom.CustomCourseRepository;
@@ -12,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -52,16 +52,39 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public CourseResponse getById(Long id) {
-        return null;
+        return customRepository.getById(id).orElseThrow(() -> new NotFoundException("Course not found!"));
     }
 
     @Override
     public CourseResponse update(Long id, CourseRequest request) {
-        return null;
+        Course course = repository.findById(id).orElseThrow(
+                () -> new NotFoundException("Course not found!")
+        );
+
+        if(request.getName() != null)
+            course.setName(request.getName());
+        if(request.getDescription() != null)
+            course.setDescription(request.getDescription());
+        if(request.getStartDate() != null)
+            course.setStartDate(request.getStartDate());
+
+        repository.save(course);
+        return CourseResponse.builder()
+                .id(course.getId())
+                .name(course.getName())
+                .description(course.getDescription())
+                .startDate(course.getStartDate())
+                .build();
     }
 
     @Override
     public String delete(Long id) {
-        return null;
+        Course course = repository.findById(id).orElseThrow(
+                () -> new NotFoundException("Course not found!")
+        );
+        course.getInstructors().forEach(x -> x.setCourse(null));
+        course.getGroups().forEach(g -> g.setCourse(null));
+        repository.delete(course);
+        return "Course deleted successfully!";
     }
 }

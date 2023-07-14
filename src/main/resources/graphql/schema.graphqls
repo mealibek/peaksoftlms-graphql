@@ -1,21 +1,28 @@
 type Query {
     getCourses : [CourseResponse]!
-    getCourseById(id:ID!) : CourseResponse!
+    getCourse(id:ID!) : CourseResponse!
+    
     # Group
-    getGroups: [GroupsResponse]
-    getGroupById(id: ID!): GroupResponse
+    getGroups: [GroupsResponse]!
+    getGroupById(id: ID!): GroupResponse!
 }
 
 type Mutation {
     # Auth
     signUp(request:AuthRequest!) : AuthResponse!
     signIn(request:AuthRequest!) : AuthResponse!
-    forgotPassword(request:ForgotRequest!) : AuthResponse
-    resetPassword(request:ResetRequest!) : AuthResponse
+    forgotPassword(request:ForgotRequest!) : AuthResponse!
+    resetPassword(request:ResetRequest!) : AuthResponse!
+    
+    # Course
+    saveCourse(request:CourseRequest!):CourseResponse!
+    updateCourse(id:ID!, request:CourseRequest!) : CourseResponse!
+    deleteCourse(id:ID!):String!
+    
     # Group
     saveGroup(request: GroupRequest!): GroupResponse
     updateGroup(id: ID!,request: GroupRequest): GroupResponse
-    deleteGroup(id: ID!): String
+    deleteGroup(id: ID!): String!
 }
 
 
