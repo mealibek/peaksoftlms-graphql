@@ -2,15 +2,15 @@ package com.peaksoft.lms.models;
 
 import com.peaksoft.lms.enums.FileType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import static jakarta.persistence.CascadeType.*;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @Table(name = "files")
 @Builder
 public class File {

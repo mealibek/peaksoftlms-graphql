@@ -12,6 +12,8 @@ import static jakarta.persistence.CascadeType.*;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @Table(name = "groups")
 @Setter
 @Getter
