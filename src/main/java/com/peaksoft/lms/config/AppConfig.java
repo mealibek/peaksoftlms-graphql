@@ -21,7 +21,9 @@ public class AppConfig {
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> accountRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found!"));
+                .orElseThrow(() -> new UsernameNotFoundException(
+                        "The provided token is invalid or has expired, and the corresponding user was not found.")
+                );
     }
 
     @Bean

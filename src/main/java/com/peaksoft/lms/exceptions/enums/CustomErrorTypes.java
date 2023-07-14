@@ -11,5 +11,7 @@ public enum CustomErrorTypes implements ErrorClassification {
     NOT_FOUND,
     INTERNAL_ERROR,
     ALREADY_EXIST,
-    BAD_CREDENTIALS;
+    BAD_CREDENTIALS,
+    INVALID_TOKEN,
+    TOKEN_EXPIRED;
 }

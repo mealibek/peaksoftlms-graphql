@@ -1,7 +1,7 @@
 
 type Query {
     getCourses : [CourseResponse]!
-    getCourseById(id:ID!) : CourseResponse!
+    getCourse(id:ID!) : CourseResponse!
 }
 
 type Mutation {
@@ -10,6 +10,12 @@ type Mutation {
     signIn(request:AuthRequest!) : AuthResponse!
     forgotPassword(request:ForgotRequest!) : AuthResponse
     resetPassword(request:ResetRequest!) : AuthResponse
+
+
+    # Course
+    saveCourse(request:CourseRequest!):CourseResponse!
+    updateCourse(id:ID!, request:CourseRequest!) : CourseResponse!
+    deleteCourse(id:ID!):String!
 }
 
 
