@@ -1,11 +1,14 @@
 package com.peaksoft.lms.dto.responses.group;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
+@Builder
 public class GroupsResponse {
     private Long id;
     private String name;

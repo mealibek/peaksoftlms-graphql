@@ -17,12 +17,12 @@ public class CustomExcelRepositoryImpl implements CustomExcelRepository {
     public List<ExcelResponse> getAllExportExcelStudents() {
         String sql = """
              SELECT
-             a.id AS id,
-             CONCAT(u.first_name,' ',u.last_name) AS full_name,
-             g.name AS group_name,
-             a.study_format AS study_format,
-             a.phone_number AS phone_number,
-             a.email AS email
+             a.id    AS id,
+             CONCAT(u.first_name,' ',u.last_name)    AS full_name,
+             g.name     AS group_name,
+             a.study_format    AS study_format,
+             a.phone_number    AS phone_number,
+             a.email       AS email
              FROM users u
              JOIN accounts a ON u.id = a.user_id
              JOIN groups g ON g.id = a.student_group_id

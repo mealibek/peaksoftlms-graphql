@@ -2,13 +2,11 @@ package com.peaksoft.lms.exceptions;
 
 import com.peaksoft.lms.exceptions.enums.CustomErrorTypes;
 import graphql.GraphqlErrorBuilder;
-import io.jsonwebtoken.MalformedJwtException;
 import jakarta.validation.ValidationException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.graphql.execution.DataFetcherExceptionResolver;
 import org.springframework.graphql.execution.DataFetcherExceptionResolverAdapter;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
