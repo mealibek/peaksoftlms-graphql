@@ -11,9 +11,10 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GroupRequest {
-    private String name;
-    private String description;
-    private String image;
-    private LocalDate startDate;
+
+  private String name;
+  private String description;
+  private String image;
+  private LocalDate startDate;
 
 }

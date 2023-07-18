@@ -7,13 +7,14 @@ import com.peaksoft.lms.dto.responses.group.GroupsResponse;
 import java.util.List;
 
 public interface GroupService {
-    GroupResponse save(GroupRequest request);
 
-    List<GroupsResponse> getAll();
+  GroupResponse save(GroupRequest request);
 
-    GroupResponse getById(Long id);
+  List<GroupsResponse> getAll();
 
-    GroupResponse update(Long id, GroupRequest request);
+  GroupResponse getById(Long id);
 
-    String delete(Long id);
+  GroupResponse update(Long id, GroupRequest request);
+
+  String delete(Long id);
 }

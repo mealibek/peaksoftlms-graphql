@@ -11,10 +11,15 @@ import java.io.IOException;
 import java.util.List;
 
 public interface AccountService {
-    AuthResponse signUp(AuthRequest request);
-    AuthResponse signIn(AuthRequest request);
-    AuthResponse forgotPassword(ForgotRequest request);
-    AuthResponse resetPassword(ResetRequest request);
-    List<ExcelResponse> exportStudentToExcel(HttpServletResponse response) throws IOException;
+
+  AuthResponse signUp(AuthRequest request);
+
+  AuthResponse signIn(AuthRequest request);
+
+  AuthResponse forgotPassword(ForgotRequest request);
+
+  AuthResponse resetPassword(ResetRequest request);
+
+  List<ExcelResponse> exportStudentToExcel(HttpServletResponse response) throws IOException;
 
 }

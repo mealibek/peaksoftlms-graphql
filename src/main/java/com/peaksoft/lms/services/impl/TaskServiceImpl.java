@@ -12,5 +12,6 @@ import org.springframework.stereotype.Service;
 @Transactional
 @Slf4j
 public class TaskServiceImpl implements TaskService {
-    private final TaskRepository repository;
+
+  private final TaskRepository repository;
 }

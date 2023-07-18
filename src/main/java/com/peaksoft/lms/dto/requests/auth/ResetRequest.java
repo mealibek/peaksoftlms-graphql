@@ -10,9 +10,10 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ResetRequest {
-    private String resetPasswordToken;
-    @PasswordValid
-    private String newPassword;
-    @PasswordValid
-    private String confirmPassword;
+
+  private String resetPasswordToken;
+  @PasswordValid
+  private String newPassword;
+  @PasswordValid
+  private String confirmPassword;
 }

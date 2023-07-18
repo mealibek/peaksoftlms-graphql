@@ -14,15 +14,16 @@ import java.io.IOException;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class ExcelController {
-    private final AccountService accountService;
 
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping("/excel")
-    public void exportToExcel(HttpServletResponse response) throws IOException {
-        response.setContentType("application/octet-stream");
-        String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=Student_Information.xlsx";
-        response.setHeader(headerKey, headerValue);
-        accountService.exportStudentToExcel(response);
-    }
+  private final AccountService accountService;
+
+  @PreAuthorize("hasAuthority('ADMIN')")
+  @GetMapping("/excel")
+  public void exportToExcel(HttpServletResponse response) throws IOException {
+    response.setContentType("application/octet-stream");
+    String headerKey = "Content-Disposition";
+    String headerValue = "attachment; filename=Student_Information.xlsx";
+    response.setHeader(headerKey, headerValue);
+    accountService.exportStudentToExcel(response);
+  }
 }

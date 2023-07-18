@@ -8,18 +8,19 @@ import graphql.language.SourceLocation;
 import java.util.List;
 
 public class BadRequestException extends RuntimeException implements GraphQLError {
-    public BadRequestException(String message) {
 
-        super(message);
-    }
+  public BadRequestException(String message) {
 
-    @Override
-    public List<SourceLocation> getLocations() {
-        return null;
-    }
+    super(message);
+  }
 
-    @Override
-    public ErrorClassification getErrorType() {
-        return CustomErrorTypes.BAD_REQUEST;
-    }
+  @Override
+  public List<SourceLocation> getLocations() {
+    return null;
+  }
+
+  @Override
+  public ErrorClassification getErrorType() {
+    return CustomErrorTypes.BAD_REQUEST;
+  }
 }

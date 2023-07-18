@@ -11,10 +11,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GroupStudentsResponse {
-    private Long id;
-    private String fullName;
-    private String groupName;
-    private StudyFormat studyFormat;
-    private String phoneNumber;
-    private String email;
+
+  private Long id;
+  private String fullName;
+  private String groupName;
+  private StudyFormat studyFormat;
+  private String phoneNumber;
+  private String email;
 }

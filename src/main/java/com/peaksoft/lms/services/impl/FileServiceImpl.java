@@ -12,5 +12,6 @@ import org.springframework.stereotype.Service;
 @Transactional
 @Slf4j
 public class FileServiceImpl implements FileService {
-    private final FileRepository repository;
+
+  private final FileRepository repository;
 }

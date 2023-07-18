@@ -12,5 +12,6 @@ import org.springframework.stereotype.Service;
 @Transactional
 @Slf4j
 public class VideoLessonServiceImpl implements VideoLessonService {
-    private final VideoLessonRepository repository;
+
+  private final VideoLessonRepository repository;
 }

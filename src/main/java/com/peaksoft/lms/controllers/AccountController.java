@@ -16,25 +16,26 @@ import org.springframework.validation.annotation.Validated;
 @RequiredArgsConstructor
 @Validated
 public class AccountController {
-    private final AccountService accountService;
 
-    @MutationMapping(name = "signUp")
-    public AuthResponse signUp(@Argument @Valid AuthRequest request) {
-        return accountService.signUp(request);
-    }
+  private final AccountService accountService;
 
-    @MutationMapping(name = "signIn")
-    public AuthResponse signIn(@Argument @Valid AuthRequest request) {
-        return accountService.signIn(request);
-    }
+  @MutationMapping(name = "signUp")
+  public AuthResponse signUp(@Argument @Valid AuthRequest request) {
+    return accountService.signUp(request);
+  }
 
-    @MutationMapping
-    public AuthResponse forgotPassword(@Argument @Valid ForgotRequest request) {
-        return accountService.forgotPassword(request);
-    }
+  @MutationMapping(name = "signIn")
+  public AuthResponse signIn(@Argument @Valid AuthRequest request) {
+    return accountService.signIn(request);
+  }
 
-    @MutationMapping
-    public AuthResponse resetPassword(@Argument @Valid ResetRequest request) {
-        return accountService.resetPassword(request);
-    }
+  @MutationMapping
+  public AuthResponse forgotPassword(@Argument @Valid ForgotRequest request) {
+    return accountService.forgotPassword(request);
+  }
+
+  @MutationMapping
+  public AuthResponse resetPassword(@Argument @Valid ResetRequest request) {
+    return accountService.resetPassword(request);
+  }
 }

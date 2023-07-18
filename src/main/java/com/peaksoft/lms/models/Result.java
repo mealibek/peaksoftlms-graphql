@@ -13,14 +13,15 @@ import static jakarta.persistence.CascadeType.*;
 @Table(name = "results")
 @Builder
 public class Result {
-    @Id
-    @GeneratedValue(generator = "result_id_gen",strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "result_id_gen",sequenceName = "result_id_seq",allocationSize = 1,initialValue = 5)
-    private Long id;
-    private Integer countCorrect;
-    private Integer countInCorrect;
-    @ManyToOne(cascade = {PERSIST,MERGE,DETACH,REFRESH})
-    private Account account;
-    @ManyToOne(cascade = {PERSIST,MERGE,DETACH,REFRESH})
-    private Test test;
+
+  @Id
+  @GeneratedValue(generator = "result_id_gen", strategy = GenerationType.SEQUENCE)
+  @SequenceGenerator(name = "result_id_gen", sequenceName = "result_id_seq", allocationSize = 1, initialValue = 5)
+  private Long id;
+  private Integer countCorrect;
+  private Integer countInCorrect;
+  @ManyToOne(cascade = {PERSIST, MERGE, DETACH, REFRESH})
+  private Account account;
+  @ManyToOne(cascade = {PERSIST, MERGE, DETACH, REFRESH})
+  private Test test;
 }

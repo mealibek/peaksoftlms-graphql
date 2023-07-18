@@ -23,77 +23,78 @@ import static jakarta.persistence.CascadeType.REFRESH;
 @Getter
 @Setter
 public class Account implements UserDetails {
-    @Id
-    @GeneratedValue(generator = "account_id_gen", strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "account_id_gen", sequenceName = "account_id_seq", allocationSize = 1,initialValue = 8)
-    private Long id;
-    @OneToOne(cascade = CascadeType.ALL)
-    private User user;
-    private String email;
-    private String password;
-    @Enumerated(EnumType.STRING)
-    private Role role;
-    @Enumerated(EnumType.STRING)
-    private StudyFormat studyFormat;
-    private String phoneNumber;
-    private String resetPasswordToken;
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
 
-    @ManyToOne(cascade = {PERSIST,DETACH,MERGE,REFRESH})
-    private Course course;
+  @Id
+  @GeneratedValue(generator = "account_id_gen", strategy = GenerationType.SEQUENCE)
+  @SequenceGenerator(name = "account_id_gen", sequenceName = "account_id_seq", allocationSize = 1, initialValue = 8)
+  private Long id;
+  @OneToOne(cascade = CascadeType.ALL)
+  private User user;
+  private String email;
+  private String password;
+  @Enumerated(EnumType.STRING)
+  private Role role;
+  @Enumerated(EnumType.STRING)
+  private StudyFormat studyFormat;
+  private String phoneNumber;
+  private String resetPasswordToken;
+  private LocalDateTime createdAt;
+  private LocalDateTime modifiedAt;
 
-    @JoinTable(name = "instructors_groups")
-    @ManyToMany(cascade = {PERSIST,MERGE,REFRESH,DETACH})
-    private List<Group> groups;
+  @ManyToOne(cascade = {PERSIST, DETACH, MERGE, REFRESH})
+  private Course course;
 
-    @JoinColumn(name = "student_group_id")
-    @ManyToOne(cascade = {PERSIST,MERGE,REFRESH,DETACH})
-    private Group group;
+  @JoinTable(name = "instructors_groups")
+  @ManyToMany(cascade = {PERSIST, MERGE, REFRESH, DETACH})
+  private List<Group> groups;
 
-    @PrePersist
-    protected void onCreate() {
-        modifiedAt = LocalDateTime.now();
-        createdAt = LocalDateTime.now();
-    }
+  @JoinColumn(name = "student_group_id")
+  @ManyToOne(cascade = {PERSIST, MERGE, REFRESH, DETACH})
+  private Group group;
 
-    @PreUpdate
-    protected void onUpdate() {
-        modifiedAt = LocalDateTime.now();
-    }
+  @PrePersist
+  protected void onCreate() {
+    modifiedAt = LocalDateTime.now();
+    createdAt = LocalDateTime.now();
+  }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
-    }
+  @PreUpdate
+  protected void onUpdate() {
+    modifiedAt = LocalDateTime.now();
+  }
 
-    @Override
-    public String getPassword() {
-        return password;
-    }
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return List.of(new SimpleGrantedAuthority(role.name()));
+  }
 
-    @Override
-    public String getUsername() {
-        return email;
-    }
+  @Override
+  public String getPassword() {
+    return password;
+  }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
+  @Override
+  public String getUsername() {
+    return email;
+  }
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
+  @Override
+  public boolean isAccountNonExpired() {
+    return true;
+  }
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
+  @Override
+  public boolean isAccountNonLocked() {
+    return true;
+  }
 
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+  @Override
+  public boolean isCredentialsNonExpired() {
+    return true;
+  }
+
+  @Override
+  public boolean isEnabled() {
+    return true;
+  }
 }

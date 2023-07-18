@@ -9,7 +9,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ForgotRequest {
-    @EmailValid
-    private String email;
-    private String linkResetPassword;
+
+  @EmailValid
+  private String email;
+  private String linkResetPassword;
 }
