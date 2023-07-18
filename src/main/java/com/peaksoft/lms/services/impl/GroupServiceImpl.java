@@ -8,7 +8,7 @@ import com.peaksoft.lms.exceptions.NotFoundException;
 import com.peaksoft.lms.models.File;
 import com.peaksoft.lms.models.Group;
 import com.peaksoft.lms.repositories.GroupRepository;
-import com.peaksoft.lms.repositories.custom.GroupCustomRepository;
+import com.peaksoft.lms.repositories.custom.CustomGroupRepository;
 import com.peaksoft.lms.services.GroupService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ import java.util.List;
 @Slf4j
 public class GroupServiceImpl implements GroupService {
     private final GroupRepository repository;
-    private final GroupCustomRepository groupCustomRepository;
+    private final CustomGroupRepository groupCustomRepository;
 
     @Override
     public GroupResponse save(GroupRequest request) {
@@ -47,7 +47,7 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public List<GroupsResponse> getAll() {
-        return repository.getAll();
+        return groupCustomRepository.getAll();
     }
 
     @Override

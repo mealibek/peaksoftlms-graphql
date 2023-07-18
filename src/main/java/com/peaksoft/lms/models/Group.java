@@ -15,8 +15,6 @@ import static jakarta.persistence.CascadeType.*;
 @Getter
 @Setter
 @Table(name = "groups")
-@Setter
-@Getter
 @Builder
 public class Group {
     @Id
