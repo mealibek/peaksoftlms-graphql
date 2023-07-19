@@ -12,5 +12,6 @@ import org.springframework.stereotype.Service;
 @Transactional
 @Slf4j
 public class TestServiceImpl implements TestService {
-    private final TestRepository repository;
+
+  private final TestRepository repository;
 }

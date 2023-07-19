@@ -12,5 +12,6 @@ import org.springframework.stereotype.Service;
 @Transactional
 @Slf4j
 public class ResultServiceImpl implements ResultService {
-    private final ResultRepository repository;
+
+  private final ResultRepository repository;
 }

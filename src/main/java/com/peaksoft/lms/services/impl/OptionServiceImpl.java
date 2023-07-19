@@ -12,5 +12,6 @@ import org.springframework.stereotype.Service;
 @Transactional
 @Slf4j
 public class OptionServiceImpl implements OptionService {
-   private final OptionRepository repository;
+
+  private final OptionRepository repository;
 }

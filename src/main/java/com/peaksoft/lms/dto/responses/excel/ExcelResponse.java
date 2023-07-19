@@ -10,11 +10,12 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 public class ExcelResponse {
-    private Long id;
-    private String fullName;
-    private String group;
-    @Enumerated(EnumType.STRING)
-    private StudyFormat studyFormat;
-    private String phoneNumber;
-    private String email;
+
+  private Long id;
+  private String fullName;
+  private String group;
+  @Enumerated(EnumType.STRING)
+  private StudyFormat studyFormat;
+  private String phoneNumber;
+  private String email;
 }

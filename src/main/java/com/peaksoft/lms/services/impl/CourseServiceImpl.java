@@ -20,52 +20,56 @@ import java.util.List;
 @Transactional
 @Slf4j
 public class CourseServiceImpl implements CourseService {
-    private final CourseRepository repository;
-    private final CustomCourseRepositoryImpl customRepository;
 
-    @Override
-    public CourseResponse save(CourseRequest request) {
-        Boolean existingCourse = repository.existsCoursesByName(request.getName());
-        if (existingCourse) throw new AlreadyExistException(
-                String.format("Sorry, Course with a name %s ALREADY EXISTS", request.getName())
-        );
+  private final CourseRepository repository;
+  private final CustomCourseRepositoryImpl customRepository;
 
-        Course newCourse = Course.builder()
-                .name(request.getName())
-                .description(request.getDescription())
-                .startDate(request.getStartDate())
-                .build();
+  @Override
+  public CourseResponse save(CourseRequest request) {
+    Boolean existingCourse = repository.existsCoursesByName(request.getName());
+      if (existingCourse) {
+          throw new AlreadyExistException(
+              String.format("Sorry, Course with a name %s ALREADY EXISTS", request.getName())
+          );
+      }
 
-        repository.save(newCourse);
-        return CourseResponse.builder()
-                .id(newCourse.getId())
-                .name(newCourse.getName())
-                .description(newCourse.getDescription())
-                .startDate(newCourse.getStartDate())
-                .build();
-    }
+    Course newCourse = Course.builder()
+        .name(request.getName())
+        .description(request.getDescription())
+        .startDate(request.getStartDate())
+        .build();
 
-    @Override
-    public List<CourseResponse> getAll() {
-        return customRepository.getAll();
-    }
+    repository.save(newCourse);
+    return CourseResponse.builder()
+        .id(newCourse.getId())
+        .name(newCourse.getName())
+        .description(newCourse.getDescription())
+        .startDate(newCourse.getStartDate())
+        .build();
+  }
 
-    @Override
-    public CourseResponse getById(Long id) {
-        return customRepository.getById(id).orElseThrow(() -> new NotFoundException("Course with id %s not found !".formatted(id)));
-    }
+  @Override
+  public List<CourseResponse> getAll() {
+    return customRepository.getAll();
+  }
 
-    @Override
-    public CourseResponse update(Long id, CourseRequest request) {
-        Course course = repository.findById(id).orElseThrow(
-                () -> new NotFoundException("Course not found!")
-        );
+  @Override
+  public CourseResponse getById(Long id) {
+    return customRepository.getById(id)
+        .orElseThrow(() -> new NotFoundException("Course with id %s not found !".formatted(id)));
+  }
 
-        if (request.getName() != null)
+  @Override
+  public CourseResponse update(Long id, CourseRequest request) {
+    Course course = repository.findById(id).orElseThrow(
+        () -> new NotFoundException("Course not found!")
+    );
+
+        if(request.getName() != null)
             course.setName(request.getName());
-        if (request.getDescription() != null)
+        if(request.getDescription() != null)
             course.setDescription(request.getDescription());
-        if (request.getStartDate() != null)
+        if(request.getStartDate() != null)
             course.setStartDate(request.getStartDate());
 
         repository.save(course);

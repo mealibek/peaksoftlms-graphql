@@ -6,7 +6,8 @@ import com.peaksoft.lms.dto.responses.group.GroupsResponse;
 import java.util.List;
 
 public interface CustomGroupRepository {
-    List<GroupsResponse> getAll();
-    GroupResponse getGroupById(Long id);
+  List<GroupsResponse> getAll();
+
+  GroupResponse getGroupById(Long id);
 }
 

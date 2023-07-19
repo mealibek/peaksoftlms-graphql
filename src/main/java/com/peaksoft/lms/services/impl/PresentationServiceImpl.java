@@ -12,5 +12,6 @@ import org.springframework.stereotype.Service;
 @Transactional
 @Slf4j
 public class PresentationServiceImpl implements PresentationService {
-    private final PresentationRepository repository;
+
+  private final PresentationRepository repository;
 }

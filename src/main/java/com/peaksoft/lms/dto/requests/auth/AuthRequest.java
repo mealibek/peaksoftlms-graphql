@@ -10,8 +10,9 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthRequest {
-    @EmailValid
-    private String email;
-    @PasswordValid
-    private String password;
+
+  @EmailValid
+  private String email;
+  @PasswordValid
+  private String password;
 }

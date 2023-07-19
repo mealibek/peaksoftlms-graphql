@@ -4,5 +4,6 @@ import com.peaksoft.lms.models.Course;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CourseRepository extends JpaRepository<Course, Long> {
-    Boolean existsCoursesByName(String name);
+
+  Boolean existsCoursesByName(String name);
 }
