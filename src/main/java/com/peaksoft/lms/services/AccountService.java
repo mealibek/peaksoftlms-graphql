@@ -3,8 +3,10 @@ package com.peaksoft.lms.services;
 import com.peaksoft.lms.dto.requests.auth.AuthRequest;
 import com.peaksoft.lms.dto.requests.auth.ForgotRequest;
 import com.peaksoft.lms.dto.requests.auth.ResetRequest;
+import com.peaksoft.lms.dto.requests.student.StudentRequest;
 import com.peaksoft.lms.dto.responses.auth.AuthResponse;
 import com.peaksoft.lms.dto.responses.excel.ExcelResponse;
+import com.peaksoft.lms.dto.responses.student.StudentsResponse;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
