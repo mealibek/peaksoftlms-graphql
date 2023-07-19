@@ -32,7 +32,7 @@ public class CustomExcelRepositoryImpl implements CustomExcelRepository {
 
         return jdbcTemplate.query(sql,(resultSet,i)->
                  ExcelResponse.builder().
-                       id( resultSet.getLong("id")).
+                        id( resultSet.getLong("id")).
                         fullName(resultSet.getString("full_name")).
                         group(resultSet.getString("group_name")).
                         studyFormat(StudyFormat.valueOf(resultSet.getString("study_format"))).

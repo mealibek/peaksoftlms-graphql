@@ -2,7 +2,7 @@ package com.peaksoft.lms.repositories.custom.impl;
 
 import com.peaksoft.lms.dto.responses.group.GroupResponse;
 import com.peaksoft.lms.dto.responses.group.GroupsResponse;
-import com.peaksoft.lms.dto.responses.student.GroupStudentsResponse;
+import com.peaksoft.lms.dto.responses.student.StudentsResponse;
 import com.peaksoft.lms.enums.StudyFormat;
 import com.peaksoft.lms.exceptions.BadRequestException;
 import com.peaksoft.lms.repositories.custom.CustomGroupRepository;
@@ -66,7 +66,7 @@ public class CustomGroupRepositoryImpl implements CustomGroupRepository {
             groupResponse.setName(rs.getString("groupName"));
 
             if (rs.getObject("id") != null) {
-                GroupStudentsResponse studentsResponse = new GroupStudentsResponse();
+                StudentsResponse studentsResponse = new StudentsResponse();
                 studentsResponse.setId(rs.getLong("id"));
                 studentsResponse.setFullName(rs.getString("fullName"));
                 studentsResponse.setGroupName(rs.getString("name"));

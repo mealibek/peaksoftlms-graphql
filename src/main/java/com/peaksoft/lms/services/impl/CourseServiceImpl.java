@@ -61,11 +61,11 @@ public class CourseServiceImpl implements CourseService {
                 () -> new NotFoundException("Course not found!")
         );
 
-        if(request.getName() != null)
+        if (request.getName() != null)
             course.setName(request.getName());
-        if(request.getDescription() != null)
+        if (request.getDescription() != null)
             course.setDescription(request.getDescription());
-        if(request.getStartDate() != null)
+        if (request.getStartDate() != null)
             course.setStartDate(request.getStartDate());
 
         repository.save(course);

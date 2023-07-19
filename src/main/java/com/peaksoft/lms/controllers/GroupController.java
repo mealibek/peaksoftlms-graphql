@@ -4,6 +4,7 @@ import com.peaksoft.lms.dto.requests.group.GroupRequest;
 import com.peaksoft.lms.dto.responses.group.GroupResponse;
 import com.peaksoft.lms.dto.responses.group.GroupsResponse;
 import com.peaksoft.lms.services.GroupService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
@@ -21,9 +22,10 @@ import java.util.List;
 public class GroupController {
 
     private final GroupService groupService;
+
     @PreAuthorize("hasAuthority('ADMIN')")
     @MutationMapping(name = "saveGroup")
-    public GroupResponse save(@Argument GroupRequest request) {
+    public GroupResponse save(@Argument @Valid GroupRequest request) {
         return groupService.save(request);
     }
 
@@ -41,7 +43,7 @@ public class GroupController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @MutationMapping(name = "updateGroup")
-    public GroupResponse update(@Argument Long id, @Argument GroupRequest request) {
+    public GroupResponse update(@Argument Long id, @Argument @Valid GroupRequest request) {
         return groupService.update(id, request);
     }
 

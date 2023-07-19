@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GroupStudentsResponse {
+public class StudentsResponse {
     private Long id;
     private String fullName;
     private String groupName;

@@ -4,16 +4,24 @@ import com.peaksoft.lms.config.jwt.JwtService;
 import com.peaksoft.lms.dto.requests.auth.AuthRequest;
 import com.peaksoft.lms.dto.requests.auth.ForgotRequest;
 import com.peaksoft.lms.dto.requests.auth.ResetRequest;
+import com.peaksoft.lms.dto.requests.student.StudentRequest;
 import com.peaksoft.lms.dto.responses.auth.AuthResponse;
 import com.peaksoft.lms.dto.responses.excel.ExcelResponse;
+import com.peaksoft.lms.dto.responses.student.StudentsResponse;
 import com.peaksoft.lms.enums.Role;
 import com.peaksoft.lms.exceptions.AlreadyExistException;
 import com.peaksoft.lms.exceptions.BadRequestException;
 import com.peaksoft.lms.exceptions.NotFoundException;
 import com.peaksoft.lms.models.Account;
+import com.peaksoft.lms.models.Group;
+import com.peaksoft.lms.models.Result;
 import com.peaksoft.lms.models.User;
 import com.peaksoft.lms.repositories.AccountRepository;
+import com.peaksoft.lms.repositories.GroupRepository;
+import com.peaksoft.lms.repositories.ResultRepository;
+import com.peaksoft.lms.repositories.UserRepository;
 import com.peaksoft.lms.repositories.custom.CustomExcelRepository;
+import com.peaksoft.lms.repositories.custom.CustomStudentRepository;
 import com.peaksoft.lms.services.AccountService;
 import com.peaksoft.lms.services.EmailService;
 import com.peaksoft.lms.utils.ExportToExcel;
@@ -46,6 +54,10 @@ public class AccountServiceImpl implements AccountService {
     private final EmailService emailService;
     private final TemplateEngine templateEngine;
     private final CustomExcelRepository customExcelRepository;
+    private final GroupRepository groupRepository;
+    private final CustomStudentRepository customStudentRepository;
+    private final UserRepository userRepository;
+    private final ResultRepository resultRepository;
 
     @Override
     public AuthResponse signUp(AuthRequest request) {
@@ -152,6 +164,102 @@ public class AccountServiceImpl implements AccountService {
         ExportToExcel exportToExcel = new ExportToExcel(students);
         exportToExcel.exportDataToExcel(response);
         return students;
+    }
+
+
+    // TODO Students CRUD
+    @Override
+    public StudentsResponse saveStudent(StudentRequest request) {
+        Group group = groupRepository.findById(request.getGroupId()).orElseThrow(() ->
+                new NotFoundException(String.format("Group with id %s not found !", request.getGroupId())));
+
+        if (repository.existsAccountByEmail(request.getEmail())) {
+            throw new AlreadyExistException("Sorry, this email already register. Please try a different email or login to your existing account !");
+        }
+        User user = User.builder()
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .build();
+
+        Account account = Account.builder()
+                .phoneNumber(request.getPhoneNumber())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .studyFormat(request.getStudyFormat())
+                .group(group)
+                .user(user)
+                .role(Role.STUDENT)
+                .build();
+
+        repository.save(account);
+        return StudentsResponse.builder()
+                .id(account.getId())
+                .fullName(user.getFirstName())
+                .groupName(account.getGroup().getName())
+                .studyFormat(account.getStudyFormat())
+                .phoneNumber(account.getPhoneNumber())
+                .email(account.getEmail())
+                .build();
+    }
+
+    @Override
+    public List<StudentsResponse> getAllStudents() {
+        return customStudentRepository.getAllStudents();
+    }
+
+    @Override
+    public StudentsResponse getStudentById(Long id) {
+        return customStudentRepository.getStudentById(id).orElseThrow(() ->
+                new NotFoundException(String.format("Student with id : %s not found ! ", id)));
+    }
+
+    @Override
+    public StudentsResponse updateStudent(Long id, StudentRequest request) {
+        Account student = repository.findById(id).orElseThrow(() ->
+                new NotFoundException(String.format("Student with id : %s not found ! ", id)));
+
+        User user = userRepository.findById(student.getUser().getId()).orElseThrow(() ->
+                new NotFoundException(String.format("Student with id : %s not found ! ", student.getUser().getId())));
+
+        Group group = groupRepository.findById(request.getGroupId()).orElseThrow(() ->
+                new NotFoundException(String.format("Group with id %s not found !", request.getGroupId())));
+
+        if (repository.existsAccountByEmail(request.getEmail())) {
+            throw new AlreadyExistException("Sorry, this email already register. Please try a different email or login to your existing account !");
+        }
+
+        user.setFirstName(request.getFirstName() != null ? request.getFirstName() : user.getFirstName());
+        user.setLastName(request.getLastName() != null ? request.getLastName() : user.getLastName());
+        student.setPhoneNumber(request.getPhoneNumber() != null ? request.getPhoneNumber() : student.getPhoneNumber());
+        student.setEmail(request.getEmail() != null ? request.getEmail() : student.getEmail());
+        student.setPassword(request.getPassword() != null ? request.getPassword() : student.getPassword());
+        student.setStudyFormat(request.getStudyFormat() != null ? request.getStudyFormat() : student.getStudyFormat());
+        student.setGroup(group != null ? group : student.getGroup());
+        repository.save(student);
+
+        return StudentsResponse.builder()
+                .id(student.getId())
+                .fullName(user.getFirstName())
+                .groupName(student.getGroup().getName())
+                .studyFormat(student.getStudyFormat())
+                .phoneNumber(student.getPhoneNumber())
+                .email(student.getEmail())
+                .build();
+
+    }
+
+    @Override
+    public String deleteStudent(Long id) {
+        Account student = repository.findById(id).orElseThrow(() ->
+                new NotFoundException(String.format("Student with id : %s not found ! ", id)));
+
+        Result result = new Result();
+        if (result.getAccount() != null) {
+            Result result1 = resultRepository.findByAccount_Id(id).orElseThrow(() -> new NotFoundException("Result not found !"));
+            resultRepository.delete(result1);
+        }
+        repository.delete(student);
+        return String.format("Student with id: %s successfully deleted !", id);
     }
 
 }

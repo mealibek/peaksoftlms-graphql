@@ -1,4 +1,0 @@
-type Account {
-    id: ID!
-    email : String!
-}
