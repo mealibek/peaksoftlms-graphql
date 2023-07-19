@@ -3,6 +3,7 @@ package com.peaksoft.lms.controllers;
 import com.peaksoft.lms.dto.requests.video.VideoLessonRequest;
 import com.peaksoft.lms.dto.responses.video.VideoLessonResponse;
 import com.peaksoft.lms.services.VideoLessonService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -21,13 +22,13 @@ public class VideoLessonController {
 
   @MutationMapping(name = "saveVideoLesson")
   @PreAuthorize("hasAnyAuthority('ADMIN','INSTRUCTOR')")
-  public VideoLessonResponse saveVideoLesson(@Argument VideoLessonRequest request) {
+  public VideoLessonResponse saveVideoLesson(@Argument @Valid VideoLessonRequest request) {
     return videoLessonService.save(request);
   }
 
   @MutationMapping(name = "updateVideoLesson")
   @PreAuthorize("hasAnyAuthority('ADMIN','INSTRUCTOR')")
-  public VideoLessonResponse update(@Argument Long id, @Argument VideoLessonRequest request) {
+  public VideoLessonResponse update(@Argument Long id, @Argument @Valid VideoLessonRequest request) {
     return videoLessonService.update(id, request);
   }
 
