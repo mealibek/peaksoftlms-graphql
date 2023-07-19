@@ -9,6 +9,10 @@ type Query {
     #VideoLesson
     getVideoLessons:[VideoLessonResponse]!
     getVideoLesson(id:ID!):VideoLessonResponse!
+
+    #Presentation
+    getPresentations:[PresentationResponse]!
+    getPresentation(id:ID!):PresentationResponse!
 }
 
 type Mutation {
@@ -33,6 +37,12 @@ type Mutation {
     saveVideoLesson(request:VideoLessonRequest!):VideoLessonResponse!
     updateVideoLesson(id:ID! request:VideoLessonRequest!):VideoLessonResponse!
     deleteVideoLesson(id:ID!):String!
+
+
+    #Presentation
+    savePresentation(request:PresentationRequest!):PresentationResponse!
+    updatePresentation(id:ID! request:PresentationRequest!):PresentationResponse!
+    deletePresentation(id:ID!):String!
 }
 
 
