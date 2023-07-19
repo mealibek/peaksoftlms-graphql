@@ -1,0 +1,14 @@
+type VideoLessonResponse {
+    id: ID
+    lessonId:ID
+    name:String
+    description:String
+    url:String
+}
+
+input VideoLessonRequest {
+    lessonId:ID!
+    name:String!
+    description:String!
+    url:String!
+}

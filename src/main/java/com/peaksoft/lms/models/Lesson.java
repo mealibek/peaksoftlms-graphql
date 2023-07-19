@@ -4,10 +4,12 @@ package com.peaksoft.lms.models;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import lombok.Setter;
 
 import static jakarta.persistence.CascadeType.*;
 
@@ -15,6 +17,8 @@ import static jakarta.persistence.CascadeType.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "lessons")
+@Getter
+@Setter
 @Builder
 public class Lesson {
 
@@ -25,8 +29,8 @@ public class Lesson {
   private String name;
   @ManyToOne(cascade = {PERSIST, REFRESH, DETACH, MERGE})
   private Group group;
-  @OneToMany(mappedBy = "lesson", cascade = ALL)
-  private List<VideoLesson> videoLesson;
+  @OneToOne(mappedBy = "lesson")
+  private VideoLesson videoLesson;
   @OneToMany(cascade = ALL, mappedBy = "lesson")
   private List<Presentation> presentations;
   @OneToMany(cascade = ALL, mappedBy = "lesson")

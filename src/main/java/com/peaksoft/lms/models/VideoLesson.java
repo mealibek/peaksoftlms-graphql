@@ -3,7 +3,9 @@ package com.peaksoft.lms.models;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import static jakarta.persistence.CascadeType.*;
 
@@ -11,6 +13,8 @@ import static jakarta.persistence.CascadeType.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "video_lessons")
+@Getter
+@Setter
 @Builder
 public class VideoLesson {
 
@@ -22,6 +26,6 @@ public class VideoLesson {
   private String description;
   @OneToOne(cascade = CascadeType.ALL)
   private File file;
-  @ManyToOne(cascade = {PERSIST, MERGE, DETACH, REFRESH})
+  @OneToOne(cascade = {PERSIST, MERGE, DETACH, REFRESH})
   private Lesson lesson;
 }
