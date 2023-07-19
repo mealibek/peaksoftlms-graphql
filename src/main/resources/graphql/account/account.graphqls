@@ -2,3 +2,13 @@ type Account {
     id: ID!
     email : String!
 }
+
+
+type StudentResponse {
+    id: ID
+    fullName: String
+    groupName: String
+    studyFormat: StudyFormat
+    phoneNumber: String
+    email: String
+}

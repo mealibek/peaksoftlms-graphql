@@ -53,7 +53,11 @@ public class GroupServiceImpl implements GroupService {
 
   @Override
   public GroupResponse getById(Long id) {
-    return groupCustomRepository.getGroupById(id);
+    return groupCustomRepository.getGroupById(id).orElseThrow(
+        () -> new NotFoundException(
+            String.format("Group with id %s not found!",id)
+        )
+    );
   }
 
   @Override

@@ -1,21 +1,21 @@
 package com.peaksoft.lms.dto.responses.course;
 
-import com.peaksoft.lms.dto.responses.student.StudentsResponse;
-import java.util.List;
-import lombok.*;
-
 import java.time.LocalDate;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Builder
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CourseResponse {
+public class CoursesResponse {
   private Long id;
   private String name;
   private String description;
   private LocalDate startDate;
   private String imageUrl;
-  private List<StudentsResponse> students;
 }

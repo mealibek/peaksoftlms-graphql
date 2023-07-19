@@ -25,5 +25,7 @@ public class File {
   @OneToOne(mappedBy = "file", cascade = {PERSIST, MERGE, DETACH, REFRESH})
   private Group group;
   @OneToOne(mappedBy = "file", cascade = {PERSIST, MERGE, DETACH, REFRESH})
+  private Course course;
+  @OneToOne(mappedBy = "file", cascade = {PERSIST, MERGE, DETACH, REFRESH})
   private Task task;
 }

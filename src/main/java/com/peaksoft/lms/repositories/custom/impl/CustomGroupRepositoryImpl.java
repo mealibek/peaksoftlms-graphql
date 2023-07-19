@@ -2,10 +2,10 @@ package com.peaksoft.lms.repositories.custom.impl;
 
 import com.peaksoft.lms.dto.responses.group.GroupResponse;
 import com.peaksoft.lms.dto.responses.group.GroupsResponse;
-import com.peaksoft.lms.dto.responses.student.GroupStudentsResponse;
+import com.peaksoft.lms.dto.responses.student.StudentsResponse;
 import com.peaksoft.lms.enums.StudyFormat;
-import com.peaksoft.lms.exceptions.BadRequestException;
 import com.peaksoft.lms.repositories.custom.CustomGroupRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -45,7 +45,7 @@ public class CustomGroupRepositoryImpl implements CustomGroupRepository {
   }
 
   @Override
-  public GroupResponse getGroupById(Long id) {
+  public Optional<GroupResponse> getGroupById(Long id) {
     String query = """
         SELECT g.id   AS groupId,
         g.name        AS groupName,
@@ -61,13 +61,13 @@ public class CustomGroupRepositoryImpl implements CustomGroupRepository {
         WHERE g.id = ?
         """;
 
-    List<GroupResponse> results = jdbcTemplate.query(query, new Object[]{id}, (rs, rowNum) -> {
+    return jdbcTemplate.query(query, (rs, rowNum) -> {
       GroupResponse groupResponse = new GroupResponse();
       groupResponse.setId(rs.getLong("groupId"));
       groupResponse.setName(rs.getString("groupName"));
 
       if (rs.getObject("id") != null) {
-        GroupStudentsResponse studentsResponse = new GroupStudentsResponse();
+        StudentsResponse studentsResponse = new StudentsResponse();
         studentsResponse.setId(rs.getLong("id"));
         studentsResponse.setFullName(rs.getString("fullName"));
         studentsResponse.setGroupName(rs.getString("name"));
@@ -80,13 +80,7 @@ public class CustomGroupRepositoryImpl implements CustomGroupRepository {
         groupResponse.setStudents(null);
       }
       return groupResponse;
-    });
-
-    if (results.isEmpty()) {
-      throw new BadRequestException("Group with id %s not found.".formatted(id));
-    }
-
-    return results.get(0);
+    }, id).stream().findAny();
   }
 
 }
