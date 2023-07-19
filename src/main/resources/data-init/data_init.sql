@@ -7,11 +7,6 @@ values (now(),1,now(),'Admin','MALE','Adminov'),
        (now(),6,now(),'Alibek','MALE','Altynbekov'),
        (now(),7,now(),'Iskhak','MALE','Abdukhamitov');
 
-insert into courses(finish_date, start_date, created_at, id, modified_at, description, name)
-values ('2023-10-10',now(),now(),1,now(),'Java course','Java'),
-       ('2023-10-10',now(),now(),2,now(),'JavaScript course','JS');
-
-
 insert into files(id, file_type, url)
 values (1,'IMAGE',' file image url 1'),
        (2,'IMAGE',' file image url 2'),
@@ -22,7 +17,14 @@ values (1,'IMAGE',' file image url 1'),
        (7,'IMAGE',' file image url 3'),
        (8,'IMAGE',' file image url 4'),
        (9,'FILE',' file pdf url 3'),
-       (10,'FILE',' file pdf url 4');
+       (10,'FILE',' file pdf url 4'),
+       (11,'IMAGE',' image course 11'),
+       (12,'IMAGE',' image course 12');
+
+
+insert into courses(finish_date, start_date,created_at, id, modified_at, description, name,file_id)
+values ('2023-10-10',now(),now(),1,now(),'Java course','Java',11),
+       ('2023-10-10',now(),now(),2,now(),'JavaScript course','JS',12);
 
 insert into groups(finish_date, start_date, course_id, created_at, file_id, id, modified_at, description, name)
 values ('2023-12-10',now(),1,now(),1,1,now(),'java 8 best','java-8'),

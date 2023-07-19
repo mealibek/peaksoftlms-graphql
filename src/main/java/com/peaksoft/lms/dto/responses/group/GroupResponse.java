@@ -1,6 +1,6 @@
 package com.peaksoft.lms.dto.responses.group;
 
-import com.peaksoft.lms.dto.responses.student.GroupStudentsResponse;
+import com.peaksoft.lms.dto.responses.student.StudentsResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,5 +16,5 @@ public class GroupResponse {
 
   private Long id;
   private String name;
-  private List<GroupStudentsResponse> students;
+  private List<StudentsResponse> students;
 }

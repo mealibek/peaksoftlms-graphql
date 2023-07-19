@@ -5,10 +5,13 @@ type CourseResponse {
     name:String
     description:String
     startDate:Date
+    imageUrl:String
+    students:[StudentResponse]
 }
 
 input CourseRequest {
     name:String!
     description:String!
     startDate:Date!
+    imageUrl:String
 }

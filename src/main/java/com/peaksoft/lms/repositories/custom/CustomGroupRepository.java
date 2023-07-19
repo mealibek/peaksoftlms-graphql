@@ -4,11 +4,12 @@ import com.peaksoft.lms.dto.responses.group.GroupResponse;
 import com.peaksoft.lms.dto.responses.group.GroupsResponse;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CustomGroupRepository {
 
   List<GroupsResponse> getAll();
 
-  GroupResponse getGroupById(Long id);
+  Optional<GroupResponse> getGroupById(Long id);
 }
 

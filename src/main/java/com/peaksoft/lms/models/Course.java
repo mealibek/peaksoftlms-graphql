@@ -24,6 +24,8 @@ public class Course {
   private Long id;
   private String name;
   private String description;
+  @OneToOne(cascade = CascadeType.ALL)
+  private File file;
   private LocalDate startDate;
   private LocalDate finishDate;
   @OneToMany(cascade = {PERSIST, DETACH, MERGE, REFRESH}, mappedBy = "course")
