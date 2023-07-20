@@ -14,7 +14,6 @@ import com.peaksoft.lms.exceptions.BadRequestException;
 import com.peaksoft.lms.exceptions.NotFoundException;
 import com.peaksoft.lms.models.Account;
 import com.peaksoft.lms.models.Group;
-import com.peaksoft.lms.models.Result;
 import com.peaksoft.lms.models.User;
 import com.peaksoft.lms.repositories.AccountRepository;
 import com.peaksoft.lms.repositories.GroupRepository;
@@ -57,7 +56,6 @@ public class AccountServiceImpl implements AccountService {
     private final GroupRepository groupRepository;
     private final CustomStudentRepository customStudentRepository;
     private final UserRepository userRepository;
-    private final ResultRepository resultRepository;
 
     @Override
     public AuthResponse signUp(AuthRequest request) {
@@ -253,11 +251,9 @@ public class AccountServiceImpl implements AccountService {
         Account student = repository.findById(id).orElseThrow(() ->
                 new NotFoundException(String.format("Student with id : %s not found ! ", id)));
 
-        Result result = new Result();
-            if(result.equals(resultRepository.findByAccount_Id(id).orElseThrow(() -> new NotFoundException("Result not found !")))){
-                resultRepository.delete(result);
-        }
+        student.getResults().forEach(x -> x.setAccount(null));
         repository.delete(student);
+
         return String.format("Student with id: %s successfully deleted !", id);
     }
 

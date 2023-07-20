@@ -2,9 +2,11 @@ package com.peaksoft.lms.services.impl;
 
 import com.peaksoft.lms.dto.requests.course.CourseRequest;
 import com.peaksoft.lms.dto.responses.course.CourseResponse;
+import com.peaksoft.lms.enums.FileType;
 import com.peaksoft.lms.exceptions.AlreadyExistException;
 import com.peaksoft.lms.exceptions.NotFoundException;
 import com.peaksoft.lms.models.Course;
+import com.peaksoft.lms.models.File;
 import com.peaksoft.lms.repositories.CourseRepository;
 import com.peaksoft.lms.repositories.custom.impl.CustomCourseRepositoryImpl;
 import com.peaksoft.lms.services.CourseService;
@@ -37,6 +39,10 @@ public class CourseServiceImpl implements CourseService {
         .name(request.getName())
         .description(request.getDescription())
         .startDate(request.getStartDate())
+        .file(File.builder()
+            .fileType(FileType.IMAGE)
+            .url(request.getImageUrl())
+            .build())
         .build();
 
     repository.save(newCourse);
@@ -45,6 +51,7 @@ public class CourseServiceImpl implements CourseService {
         .name(newCourse.getName())
         .description(newCourse.getDescription())
         .startDate(newCourse.getStartDate())
+        .imageUrl(newCourse.getFile().getUrl())
         .build();
   }
 
@@ -65,12 +72,20 @@ public class CourseServiceImpl implements CourseService {
         () -> new NotFoundException("Course not found!")
     );
 
-        if(request.getName() != null)
-            course.setName(request.getName());
-        if(request.getDescription() != null)
-            course.setDescription(request.getDescription());
-        if(request.getStartDate() != null)
-            course.setStartDate(request.getStartDate());
+    if (request.getName() != null) {
+      course.setName(request.getName());
+    }
+
+    if (request.getImageUrl() != null) {
+      course.getFile().setUrl(request.getImageUrl());
+    }
+
+    if (request.getDescription() != null) {
+      course.setDescription(request.getDescription());
+    }
+    if (request.getStartDate() != null) {
+      course.setStartDate(request.getStartDate());
+    }
 
         repository.save(course);
         return CourseResponse.builder()

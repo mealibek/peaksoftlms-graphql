@@ -4,7 +4,9 @@ import com.peaksoft.lms.dto.requests.presentation.PresentationRequest;
 import com.peaksoft.lms.dto.responses.presentation.PresentationResponse;
 import com.peaksoft.lms.services.PresentationService;
 import jakarta.validation.Valid;
+
 import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
@@ -18,36 +20,36 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public class PresentationController {
 
-  private final PresentationService presentationService;
+    private final PresentationService presentationService;
 
-  @MutationMapping(name = "savePresentation")
-  @PreAuthorize("hasAnyAuthority('ADMIN','INSTRUCTOR')")
-  public PresentationResponse savePresentation(@Argument @Valid PresentationRequest request) {
-    return presentationService.save(request);
-  }
+    @MutationMapping(name = "savePresentation")
+    @PreAuthorize("hasAnyAuthority('ADMIN','INSTRUCTOR')")
+    public PresentationResponse savePresentation(@Argument @Valid PresentationRequest request) {
+        return presentationService.save(request);
+    }
 
-  @MutationMapping(name = "updatePresentation")
-  @PreAuthorize("hasAnyAuthority('ADMIN','INSTRUCTOR')")
-  public PresentationResponse updatePresentation(@Argument Long id,
-      @Argument @Valid PresentationRequest request) {
-    return presentationService.update(id, request);
-  }
+    @MutationMapping(name = "updatePresentation")
+    @PreAuthorize("hasAnyAuthority('ADMIN','INSTRUCTOR')")
+    public PresentationResponse updatePresentation(@Argument Long id,
+                                                   @Argument @Valid PresentationRequest request) {
+        return presentationService.update(id, request);
+    }
 
-  @MutationMapping(name = "deletePresentation")
-  @PreAuthorize("hasAnyAuthority('ADMIN','INSTRUCTOR')")
-  public String deletePresentation(@Argument Long id) {
-    return presentationService.delete(id);
-  }
+    @MutationMapping(name = "deletePresentation")
+    @PreAuthorize("hasAnyAuthority('ADMIN','INSTRUCTOR')")
+    public String deletePresentation(@Argument Long id) {
+        return presentationService.delete(id);
+    }
 
-  @QueryMapping(name = "getPresentations")
-  @PreAuthorize("hasAnyAuthority('ADMIN','INSTRUCTOR','STUDENT')")
-  public List<PresentationResponse> getPresentations() {
-    return presentationService.getAll();
-  }
+    @QueryMapping(name = "getPresentations")
+    @PreAuthorize("hasAnyAuthority('ADMIN','INSTRUCTOR','STUDENT')")
+    public List<PresentationResponse> getPresentations() {
+        return presentationService.getAll();
+    }
 
-  @QueryMapping(name = "getPresentation")
-  @PreAuthorize("hasAnyAuthority('ADMIN','INSTRUCTOR','STUDENT')")
-  public PresentationResponse getPresentation(@Argument Long id) {
-    return presentationService.getById(id);
-  }
+    @QueryMapping(name = "getPresentation")
+    @PreAuthorize("hasAnyAuthority('ADMIN','INSTRUCTOR','STUDENT')")
+    public PresentationResponse getPresentation(@Argument Long id) {
+        return presentationService.getById(id);
+    }
 }
