@@ -254,9 +254,8 @@ public class AccountServiceImpl implements AccountService {
                 new NotFoundException(String.format("Student with id : %s not found ! ", id)));
 
         Result result = new Result();
-        if (result.getAccount() != null) {
-            Result result1 = resultRepository.findByAccount_Id(id).orElseThrow(() -> new NotFoundException("Result not found !"));
-            resultRepository.delete(result1);
+            if(result.equals(resultRepository.findByAccount_Id(id).orElseThrow(() -> new NotFoundException("Result not found !")))){
+                resultRepository.delete(result);
         }
         repository.delete(student);
         return String.format("Student with id: %s successfully deleted !", id);

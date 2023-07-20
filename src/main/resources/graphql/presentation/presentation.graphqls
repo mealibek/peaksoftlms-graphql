@@ -1,0 +1,14 @@
+type PresentationResponse {
+    id:ID
+    lessonId:ID
+    name:String
+    description:String
+    formatPPT:String
+}
+
+input PresentationRequest {
+    lessonId:ID
+    name:String!
+    description:String!
+    formatPPT:String!
+}

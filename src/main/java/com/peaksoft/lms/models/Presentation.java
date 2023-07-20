@@ -3,9 +3,11 @@ package com.peaksoft.lms.models;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import lombok.Setter;
 
 import static jakarta.persistence.CascadeType.*;
 
@@ -13,6 +15,8 @@ import static jakarta.persistence.CascadeType.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "presentations")
+@Getter
+@Setter
 @Builder
 public class Presentation {
 

@@ -1,38 +1,57 @@
 type Query {
-    # Course
+    # TODO Course
     getCourses : [CourseResponse]!
     getCourse(id:ID!) : CourseResponse!
     
-    # Group
+    # TODO Group
     getGroups: [GroupsResponse]!
     getGroupById(id: ID!): GroupResponse!
 
-    # Student
+    # TODO VideoLesson
+    getVideoLessons:[VideoLessonResponse]!
+    getVideoLesson(id:ID!):VideoLessonResponse!
+
+    # TODO Presentation
+    getPresentations:[PresentationResponse]!
+    getPresentation(id:ID!):PresentationResponse!
+
+    # TODO Student
     getStudents: [StudentsResponse]!
     getStudentById(id : ID!) :StudentsResponse!
 }
 
 type Mutation {
-    # Auth
+    # TODO Auth
     signUp(request:AuthRequest!) : AuthResponse!
     signIn(request:AuthRequest!) : AuthResponse!
     forgotPassword(request:ForgotRequest!) : AuthResponse!
     resetPassword(request:ResetRequest!) : AuthResponse!
     
-    # Course
+    # TODO Course
     saveCourse(request:CourseRequest!):CourseResponse!
     updateCourse(id:ID!, request:CourseRequest!) : CourseResponse!
     deleteCourse(id:ID!):String!
     
-    # Group
+    # TODO Group
     saveGroup(request: GroupRequest!): GroupResponse
     updateGroup(id: ID!,request: GroupRequest): GroupResponse
     deleteGroup(id: ID!): String!
 
-    # Student
+    # TODO Student
     saveStudent(request : StudentRequest!): StudentsResponse
     updateStudent(id:ID!,request : StudentRequest!):StudentsResponse
     deleteStudent(id:ID!): String!
+
+    # TODO VideoLesson
+    saveVideoLesson(request:VideoLessonRequest!):VideoLessonResponse!
+    updateVideoLesson(id:ID! request:VideoLessonRequest!):VideoLessonResponse!
+    deleteVideoLesson(id:ID!):String!
+
+
+    # TODO Presentation
+    savePresentation(request:PresentationRequest!):PresentationResponse!
+    updatePresentation(id:ID! request:PresentationRequest!):PresentationResponse!
+    deletePresentation(id:ID!):String!
 }
 
 
