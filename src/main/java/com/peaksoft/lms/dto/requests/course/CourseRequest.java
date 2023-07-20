@@ -13,7 +13,9 @@ import java.time.LocalDate;
 public class CourseRequest {
     @NotNull(message = "Name must not be empty!")
     private String name;
-    @NotNull(message = "Description not be empty!")
+    @NotNull(message = "Description must not be empty!")
     private String description;
     private LocalDate startDate;
+    @NotNull(message = "Image url must not be empty!")
+    private String imageUrl;
 }
