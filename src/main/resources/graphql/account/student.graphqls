@@ -1,0 +1,23 @@
+enum Study_Format{
+    ONLINE
+    OFFLINE
+}
+
+input StudentRequest{
+    firstName : String!
+    lastName : String!
+    phoneNumber : String!
+    email : String!
+    password :String!
+    studyFormat : StudyFormat!
+    groupId : ID!
+}
+
+type StudentsResponse {
+    id: ID
+    fullName: String
+    groupName: String
+    studyFormat: StudyFormat
+    phoneNumber: String
+    email: String
+}

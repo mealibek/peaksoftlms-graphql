@@ -6,14 +6,13 @@ import com.peaksoft.lms.dto.responses.course.CourseResponse;
 import java.util.List;
 
 public interface CourseService {
+    CourseResponse save(CourseRequest request);
 
-  CourseResponse save(CourseRequest request);
+    List<CourseResponse> getAll();
 
-  List<CourseResponse> getAll();
+    CourseResponse getById(Long id);
 
-  CourseResponse getById(Long id);
+    CourseResponse update(Long id, CourseRequest request);
 
-  CourseResponse update(Long id, CourseRequest request);
-
-  String delete(Long id);
+    String delete(Long id);
 }

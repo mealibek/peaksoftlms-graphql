@@ -29,11 +29,11 @@ public class CourseServiceImpl implements CourseService {
   @Override
   public CourseResponse save(CourseRequest request) {
     Boolean existingCourse = repository.existsCoursesByName(request.getName());
-    if (existingCourse) {
-      throw new AlreadyExistException(
-          String.format("Sorry, Course with a name %s ALREADY EXISTS", request.getName())
-      );
-    }
+      if (existingCourse) {
+          throw new AlreadyExistException(
+              String.format("Sorry, Course with a name %s ALREADY EXISTS", request.getName())
+          );
+      }
 
     Course newCourse = Course.builder()
         .name(request.getName())
@@ -87,23 +87,23 @@ public class CourseServiceImpl implements CourseService {
       course.setStartDate(request.getStartDate());
     }
 
-    repository.save(course);
-    return CourseResponse.builder()
-        .id(course.getId())
-        .name(course.getName())
-        .description(course.getDescription())
-        .startDate(course.getStartDate())
-        .build();
-  }
+        repository.save(course);
+        return CourseResponse.builder()
+                .id(course.getId())
+                .name(course.getName())
+                .description(course.getDescription())
+                .startDate(course.getStartDate())
+                .build();
+    }
 
-  @Override
-  public String delete(Long id) {
-    Course course = repository.findById(id).orElseThrow(
-        () -> new NotFoundException("Course not found!")
-    );
-    course.getInstructors().forEach(x -> x.setCourse(null));
-    course.getGroups().forEach(g -> g.setCourse(null));
-    repository.delete(course);
-    return "Course deleted successfully!";
-  }
+    @Override
+    public String delete(Long id) {
+        Course course = repository.findById(id).orElseThrow(
+                () -> new NotFoundException("Course not found!")
+        );
+        course.getInstructors().forEach(x -> x.setCourse(null));
+        course.getGroups().forEach(g -> g.setCourse(null));
+        repository.delete(course);
+        return "Course deleted successfully!";
+    }
 }

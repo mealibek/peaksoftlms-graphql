@@ -18,31 +18,31 @@ import static jakarta.persistence.CascadeType.*;
 @Builder
 public class Course {
 
-  @Id
-  @GeneratedValue(generator = "course_id_gen", strategy = GenerationType.SEQUENCE)
-  @SequenceGenerator(name = "course_id_gen", sequenceName = "course_id_seq", allocationSize = 1, initialValue = 3)
-  private Long id;
-  private String name;
-  private String description;
-  @OneToOne(cascade = CascadeType.ALL)
-  private File file;
-  private LocalDate startDate;
-  private LocalDate finishDate;
-  @OneToMany(cascade = {PERSIST, DETACH, MERGE, REFRESH}, mappedBy = "course")
-  private List<Account> instructors;
-  @OneToMany(cascade = {PERSIST, DETACH, MERGE, REFRESH}, mappedBy = "course")
-  private List<Group> groups;
-  private LocalDateTime createdAt;
-  private LocalDateTime modifiedAt;
+    @Id
+    @GeneratedValue(generator = "course_id_gen", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "course_id_gen", sequenceName = "course_id_seq", allocationSize = 1, initialValue = 3)
+    private Long id;
+    private String name;
+    private String description;
+    @OneToOne(cascade = CascadeType.ALL)
+    private File file;
+    private LocalDate startDate;
+    private LocalDate finishDate;
+    @OneToMany(cascade = {PERSIST, DETACH, MERGE, REFRESH}, mappedBy = "course")
+    private List<Account> instructors;
+    @OneToMany(cascade = {PERSIST, DETACH, MERGE, REFRESH}, mappedBy = "course")
+    private List<Group> groups;
+    private LocalDateTime createdAt;
+    private LocalDateTime modifiedAt;
 
-  @PrePersist
-  protected void onCreate() {
-    modifiedAt = LocalDateTime.now();
-    createdAt = LocalDateTime.now();
-  }
+    @PrePersist
+    protected void onCreate() {
+        modifiedAt = LocalDateTime.now();
+        createdAt = LocalDateTime.now();
+    }
 
-  @PreUpdate
-  protected void onUpdate() {
-    modifiedAt = LocalDateTime.now();
-  }
+    @PreUpdate
+    protected void onUpdate() {
+        modifiedAt = LocalDateTime.now();
+    }
 }

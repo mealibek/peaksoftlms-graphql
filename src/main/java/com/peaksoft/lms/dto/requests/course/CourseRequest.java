@@ -1,5 +1,6 @@
 package com.peaksoft.lms.dto.requests.course;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -10,9 +11,11 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CourseRequest {
-
-  private String name;
-  private String description;
-  private LocalDate startDate;
-  private String imageUrl;
+    @NotNull(message = "Name must not be empty!")
+    private String name;
+    @NotNull(message = "Description must not be empty!")
+    private String description;
+    private LocalDate startDate;
+    @NotNull(message = "Image url must not be empty!")
+    private String imageUrl;
 }

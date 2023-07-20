@@ -6,7 +6,7 @@ type CourseResponse {
     description:String
     startDate:Date
     imageUrl:String
-    students:[StudentResponse]
+    students:[StudentsResponse]
 }
 
 input CourseRequest {

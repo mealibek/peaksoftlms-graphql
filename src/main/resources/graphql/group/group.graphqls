@@ -10,12 +10,10 @@ enum StudyFormat {
     OFFLINE
 }
 
-
-
 type GroupResponse {
     id: ID!
     name: String!
-    students: [StudentResponse]
+    students: [StudentsResponse]
 }
 
 type GroupsResponse {

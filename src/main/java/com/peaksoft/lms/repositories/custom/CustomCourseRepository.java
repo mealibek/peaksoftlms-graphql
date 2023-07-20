@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CustomCourseRepository {
-
   List<CourseResponse> getAll();
 
   Optional<CourseResponse> getById(Long id);

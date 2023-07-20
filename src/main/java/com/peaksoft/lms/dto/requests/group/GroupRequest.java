@@ -1,9 +1,9 @@
 package com.peaksoft.lms.dto.requests.group;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Builder
 @Getter
@@ -11,10 +11,12 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GroupRequest {
-
-  private String name;
-  private String description;
-  private String image;
-  private LocalDate startDate;
+    @NotNull(message = "Name must not be empty !")
+    private String name;
+    @NotNull(message = "Description must not be empty!")
+    private String description;
+    @NotNull(message = "Image must not be empty!")
+    private String image;
+    private LocalDate startDate;
 
 }

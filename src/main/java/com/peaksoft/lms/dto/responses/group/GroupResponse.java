@@ -13,8 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GroupResponse {
-
-  private Long id;
-  private String name;
-  private List<StudentsResponse> students;
+    private Long id;
+    private String name;
+    private List<StudentsResponse> students;
 }
