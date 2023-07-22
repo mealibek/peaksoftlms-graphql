@@ -20,7 +20,7 @@ public class VideoLesson {
 
   @Id
   @GeneratedValue(generator = "video_lesson_id_gen", strategy = GenerationType.SEQUENCE)
-  @SequenceGenerator(name = "video_lesson_id_gen", sequenceName = "video_lesson_id_seq", allocationSize = 1)
+  @SequenceGenerator(name = "video_lesson_id_gen", sequenceName = "video_lesson_id_seq", allocationSize = 1,initialValue = 5)
   private Long id;
   private String name;
   private String description;

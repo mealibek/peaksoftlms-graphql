@@ -1,0 +1,20 @@
+input LessonRequest{
+    name : String!
+}
+
+
+type LessonResponse{
+    id : ID
+    name : String
+    videoLesson : VideoLessonResponse
+    presentation : [PresentationResponse]
+}
+
+type LessonsResponse{
+    id : ID
+    name: String
+    videoLesson : String
+    presentation : String
+    task : String
+}
+
