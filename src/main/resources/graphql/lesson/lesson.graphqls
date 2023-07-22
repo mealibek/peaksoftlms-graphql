@@ -7,7 +7,7 @@ type LessonResponse{
     id : ID
     name : String
     videoLesson : VideoLessonResponse
-    presentation : [PresentationResponse]
+    presentations : [PresentationResponse]
 }
 
 type LessonsResponse{

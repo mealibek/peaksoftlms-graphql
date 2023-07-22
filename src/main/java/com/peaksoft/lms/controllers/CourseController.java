@@ -19,36 +19,36 @@ import java.util.List;
 @Validated
 public class CourseController {
 
-    private final CourseService courseService;
+  private final CourseService courseService;
 
-    @MutationMapping(name = "saveCourse")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public CourseResponse saveCourse(@Argument @Valid CourseRequest request) {
-        return courseService.save(request);
-    }
+  @MutationMapping(name = "saveCourse")
+  @PreAuthorize("hasAuthority('ADMIN')")
+  public CourseResponse saveCourse(@Argument @Valid CourseRequest request) {
+    return courseService.save(request);
+  }
 
-    @QueryMapping(name = "getCourses")
-    @PreAuthorize("hasAnyAuthority('ADMIN','STUDENT','INSTRUCTOR')")
-    public List<CourseResponse> getCourses() {
-        return courseService.getAll();
-    }
+  @QueryMapping(name = "getCourses")
+  @PreAuthorize("hasAnyAuthority('ADMIN','STUDENT','INSTRUCTOR')")
+  public List<CourseResponse> getCourses() {
+    return courseService.getAll();
+  }
 
-    @QueryMapping(name = "getCourse")
-    @PreAuthorize("hasAnyAuthority('ADMIN','STUDENT','INSTRUCTOR')")
-    public CourseResponse getCourseById(@Argument Long id) {
-        return courseService.getById(id);
-    }
+  @QueryMapping(name = "getCourse")
+  @PreAuthorize("hasAnyAuthority('ADMIN','STUDENT','INSTRUCTOR')")
+  public CourseResponse getCourseById(@Argument Long id) {
+    return courseService.getById(id);
+  }
 
-    @MutationMapping(name = "updateCourse")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public CourseResponse updateCourseById(@Argument Long id,
-                                           @Argument @Valid CourseRequest request) {
-        return courseService.update(id, request);
-    }
+  @MutationMapping(name = "updateCourse")
+  @PreAuthorize("hasAuthority('ADMIN')")
+  public CourseResponse updateCourseById(@Argument Long id,
+      @Argument @Valid CourseRequest request) {
+    return courseService.update(id, request);
+  }
 
-    @MutationMapping(name = "deleteCourse")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public String deleteCourseById(@Argument Long id) {
-        return courseService.delete(id);
-    }
+  @MutationMapping(name = "deleteCourse")
+  @PreAuthorize("hasAuthority('ADMIN')")
+  public String deleteCourseById(@Argument Long id) {
+    return courseService.delete(id);
+  }
 }
