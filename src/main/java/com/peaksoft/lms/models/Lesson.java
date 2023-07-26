@@ -33,8 +33,8 @@ public class Lesson {
   private VideoLesson videoLesson;
   @OneToMany(cascade = ALL, mappedBy = "lesson")
   private List<Presentation> presentations;
-  @OneToMany(cascade = ALL, mappedBy = "lesson")
-  private List<Task> tasks;
+  @OneToOne(cascade = ALL, mappedBy = "lesson")
+  private Task task;
   @OneToOne(cascade = ALL)
   private Test test;
   private LocalDateTime createdAt;

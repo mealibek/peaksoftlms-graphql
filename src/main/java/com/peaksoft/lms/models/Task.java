@@ -27,7 +27,7 @@ public class Task {
   private Long id;
   private String name;
   private String description;
-  @ManyToOne(cascade = {PERSIST, MERGE, DETACH, REFRESH})
+  @OneToOne(cascade = {PERSIST, MERGE, DETACH, REFRESH})
   private Lesson lesson;
   private LocalDate deadLine;
   private LocalDateTime createdAt;

@@ -2,15 +2,15 @@ input LessonRequest{
     name : String!
 }
 
-
 type LessonResponse{
     id : ID
     name : String
     videoLesson : VideoLessonResponse
     presentations : [PresentationResponse]
+    task:TaskResponse
 }
 
-type LessonsResponse{
+type LessonsResponse {
     id : ID
     name: String
     videoLesson : String

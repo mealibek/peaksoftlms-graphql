@@ -5,7 +5,7 @@ type Query {
 
     # TODO Group
     getGroups: [GroupsResponse]!
-    getGroupById(id: ID!): GroupResponse!
+    getGroup(id: ID!): GroupResponse!
 
     # TODO VideoLesson
     getVideoLessons:[VideoLessonResponse]!
@@ -17,11 +17,11 @@ type Query {
 
     # TODO Student
     getStudents: [StudentsResponse]!
-    getStudentById(id : ID!) :StudentsResponse!
+    getStudent(id : ID!) :StudentsResponse!
 
     # TODO Lesson
     getLessons: [LessonsResponse]!
-    getLessonById(id : ID!) : LessonResponse
+    getLesson(id : ID!) : LessonResponse
 
     #TODO Task
     getTasks : [TaskResponse]!
