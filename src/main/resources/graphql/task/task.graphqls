@@ -1,0 +1,14 @@
+type TaskResponse {
+    id:ID
+    lessonId:ID
+    name:String
+    htmlContent:String
+    deadLine:Date
+}
+
+input TaskRequest {
+    lessonId:ID
+    name:String!
+    htmlContent:String!
+    deadLine:String!
+}
