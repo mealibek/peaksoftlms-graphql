@@ -3,10 +3,12 @@ package com.peaksoft.lms.models;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import lombok.Setter;
 
 import static jakarta.persistence.CascadeType.*;
 
@@ -14,6 +16,8 @@ import static jakarta.persistence.CascadeType.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "tasks")
+@Getter
+@Setter
 @Builder
 public class Task {
 
@@ -23,9 +27,7 @@ public class Task {
   private Long id;
   private String name;
   private String description;
-  @OneToOne(cascade = ALL)
-  private File file;
-  @ManyToOne(cascade = {PERSIST, MERGE, DETACH, REFRESH})
+  @OneToOne(cascade = {PERSIST, MERGE, DETACH, REFRESH})
   private Lesson lesson;
   private LocalDate deadLine;
   private LocalDateTime createdAt;

@@ -3,6 +3,7 @@ package com.peaksoft.lms.repositories.custom.impl;
 import com.peaksoft.lms.dto.responses.lesson.LessonResponse;
 import com.peaksoft.lms.dto.responses.lesson.LessonsResponse;
 import com.peaksoft.lms.dto.responses.presentation.PresentationResponse;
+import com.peaksoft.lms.dto.responses.task.TaskResponse;
 import com.peaksoft.lms.dto.responses.video.VideoLessonResponse;
 import com.peaksoft.lms.repositories.custom.CustomLessonRepository;
 import lombok.RequiredArgsConstructor;
@@ -60,10 +61,15 @@ public class CustomLessonRepositoryImpl implements CustomLessonRepository {
         p.id        AS  presentation_id,
         p.name      AS  presentation_name,
         p.description     AS  presentation_description,
-        p.formatppt   AS  presentation_format
+        p.formatppt   AS  presentation_format,
+        t.id          AS  taskID,
+        t.name        AS  taskName,
+        t.description AS taskDescription,
+        t.dead_line   AS taskDeadLine
         FROM lessons l
         LEFT JOIN video_lessons vl on l.id = vl.lesson_id
         LEFT JOIN presentations p on l.id = p.lesson_id
+        LEFT JOIN tasks t ON l.id = t.lesson_id
         LEFT JOIN files f on vl.file_id = f.id
         WHERE l.id = ?
         """;
@@ -86,6 +92,7 @@ public class CustomLessonRepositoryImpl implements CustomLessonRepository {
       } else {
         lesson.setVideoLesson(null);
       }
+
       if (resultSet.getObject("presentation_id") != null) {
 
         PresentationResponse presentation = new PresentationResponse();
@@ -98,6 +105,19 @@ public class CustomLessonRepositoryImpl implements CustomLessonRepository {
         lesson.setPresentations(Collections.singletonList(presentation));
       } else {
         lesson.setPresentations(new ArrayList<>());
+      }
+
+      if (resultSet.getObject("taskID") != null) {
+        TaskResponse taskResponse = new TaskResponse();
+        taskResponse.setLessonId(resultSet.getLong("id"));
+        taskResponse.setId(resultSet.getLong("taskID"));
+        taskResponse.setName(resultSet.getString("taskName"));
+        taskResponse.setHtmlContent(resultSet.getString("taskDescription"));
+        taskResponse.setDeadLine(resultSet.getDate("taskDeadLine").toLocalDate());
+
+        lesson.setTask(taskResponse);
+      } else {
+        lesson.setTask(null);
       }
 
       return lesson;

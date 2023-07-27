@@ -108,11 +108,11 @@ values (1, 1, 'spring core presentation', 'url', 'presentation 1'),
        (3, 3, 'react and js presentation', 'url', 'presentation 3'),
        (4, 4, 'html and css presentation', 'url', 'presentation 4');
 
-insert into tasks(dead_line, created_at, file_id, id, lesson_id, modified_at, description, name)
-values ('2023-12-10', now(), 3, 1, 1, now(), 'spring task', 'spring'),
-       ('2023-12-10', now(), 4, 2, 2, now(), 'stream task', 'stream'),
-       ('2023-12-10', now(), 9, 3, 3, now(), 'react task', 'react'),
-       ('2023-12-10', now(), 10, 4, 4, now(), 'html task', 'html');
+insert into tasks(dead_line, created_at, id, lesson_id, modified_at, description, name)
+values ('2023-12-10', now(),  1, 1, now(), 'spring task', 'spring'),
+       ('2023-12-10', now(),  2, 2, now(), 'stream task', 'stream'),
+       ('2023-12-10', now(), 3, 3, now(), 'react task', 'react'),
+       ('2023-12-10', now(), 4, 4, now(), 'html task', 'html');
 
 
 insert into results(count_correct, count_in_correct, account_id, id, test_id)
