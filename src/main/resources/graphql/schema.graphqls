@@ -29,7 +29,7 @@ type Query {
 
     #TODO Instructor
     getInstructors: [InstructorResponse]!
-    getInstructorById(id: ID!) : InstructorResponse!
+    getInstructor(id: ID!) : InstructorResponse!
 }
 
 type Mutation {

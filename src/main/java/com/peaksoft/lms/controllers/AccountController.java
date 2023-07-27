@@ -61,7 +61,7 @@ public class AccountController {
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN','INSTRUCTOR','STUDENT')")
-    @QueryMapping(name = "getStudentById")
+    @QueryMapping(name = "getStudent")
     public StudentsResponse getStudentById(@Argument Long id) {
         return accountService.getStudentById(id);
     }
@@ -93,7 +93,7 @@ public class AccountController {
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN','INSTRUCTOR')")
-    @QueryMapping(name = "getInstructorById")
+    @QueryMapping(name = "getInstructor")
     public InstructorResponse getInstructorById(@Argument Long id) {
         return accountService.getInstructorById(id);
     }
