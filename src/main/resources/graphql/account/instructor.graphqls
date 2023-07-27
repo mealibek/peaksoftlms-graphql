@@ -1,0 +1,24 @@
+enum Gender{
+    MALE
+    FEMALE
+}
+
+input InstructorRequest{
+    firstName : String!
+    lastName : String!
+    phoneNumber : String!
+    gender : Gender!
+    email : String!
+    password :String!
+    specialization : StudyFormat!
+}
+
+type InstructorResponse {
+    id: ID
+    fullName: String
+    specialization : StudyFormat
+    phoneNumber : String
+    gender : Gender
+    email: String
+    password: String
+}

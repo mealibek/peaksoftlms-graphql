@@ -22,6 +22,10 @@ type Query {
     # TODO Lesson
     getLessons: [LessonsResponse]!
     getLessonById(id : ID!) : LessonResponse
+
+    #TODO Instructor
+    getInstructors: [InstructorResponse]!
+    getInstructorById(id: ID!) : InstructorResponse!
 }
 
 type Mutation {
@@ -61,6 +65,11 @@ type Mutation {
     saveLesson(request:LessonRequest!):LessonResponse!
     updateLesson(id:ID! request:LessonRequest!):LessonResponse!
     deleteLesson(id:ID!):String !
+
+    #TODO Instructor
+    saveInstructor(request: InstructorRequest!): InstructorResponse!
+    updateInstructor(id:ID! request: InstructorRequest!): InstructorResponse!
+    deleteInstructor(id:ID): String!
 }
 
 

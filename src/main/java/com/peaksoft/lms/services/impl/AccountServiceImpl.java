@@ -4,9 +4,11 @@ import com.peaksoft.lms.config.jwt.JwtService;
 import com.peaksoft.lms.dto.requests.auth.AuthRequest;
 import com.peaksoft.lms.dto.requests.auth.ForgotRequest;
 import com.peaksoft.lms.dto.requests.auth.ResetRequest;
+import com.peaksoft.lms.dto.requests.instructor.InstructorRequest;
 import com.peaksoft.lms.dto.requests.student.StudentRequest;
 import com.peaksoft.lms.dto.responses.auth.AuthResponse;
 import com.peaksoft.lms.dto.responses.excel.ExcelResponse;
+import com.peaksoft.lms.dto.responses.instructor.InstructorResponse;
 import com.peaksoft.lms.dto.responses.student.StudentsResponse;
 import com.peaksoft.lms.enums.Role;
 import com.peaksoft.lms.exceptions.AlreadyExistException;
@@ -17,9 +19,9 @@ import com.peaksoft.lms.models.Group;
 import com.peaksoft.lms.models.User;
 import com.peaksoft.lms.repositories.AccountRepository;
 import com.peaksoft.lms.repositories.GroupRepository;
-import com.peaksoft.lms.repositories.ResultRepository;
 import com.peaksoft.lms.repositories.UserRepository;
 import com.peaksoft.lms.repositories.custom.CustomExcelRepository;
+import com.peaksoft.lms.repositories.custom.CustomInstructorRepository;
 import com.peaksoft.lms.repositories.custom.CustomStudentRepository;
 import com.peaksoft.lms.services.AccountService;
 import com.peaksoft.lms.services.EmailService;
@@ -56,6 +58,7 @@ public class AccountServiceImpl implements AccountService {
     private final GroupRepository groupRepository;
     private final CustomStudentRepository customStudentRepository;
     private final UserRepository userRepository;
+    private final CustomInstructorRepository instructorRepository;
 
     @Override
     public AuthResponse signUp(AuthRequest request) {
@@ -174,6 +177,10 @@ public class AccountServiceImpl implements AccountService {
         if (repository.existsAccountByEmail(request.getEmail())) {
             throw new AlreadyExistException("Sorry, this email already register. Please try a different email or login to your existing account !");
         }
+        if (repository.existsAccountByPhoneNumber(request.getPhoneNumber())) {
+            throw new AlreadyExistException("Sorry, this phone number already register. Please try a different phone number or login to your existing account !");
+        }
+
         User user = User.builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
@@ -189,6 +196,7 @@ public class AccountServiceImpl implements AccountService {
                 .role(Role.STUDENT)
                 .build();
 
+        user.setAccount(account);
         repository.save(account);
         return StudentsResponse.builder()
                 .id(account.getId())
@@ -257,4 +265,89 @@ public class AccountServiceImpl implements AccountService {
         return String.format("Student with id: %s successfully deleted !", id);
     }
 
+    @Override
+    public InstructorResponse saveInstructor(InstructorRequest request) {
+        if (repository.existsAccountByEmail(request.email()))
+            throw new AlreadyExistException("Sorry, this email already register. Please try a different email or login to your existing account !");
+        if (repository.existsAccountByPhoneNumber(request.phoneNumber()))
+            throw new AlreadyExistException("Sorry, this phone number already register. Please try a different phone number or login to your existing account !");
+
+        User user = User.builder()
+                .firstName(request.firstName())
+                .lastName(request.lastname())
+                .gender(request.gender())
+                .build();
+        Account account = Account.builder()
+                .user(user)
+                .email(request.email())
+                .password(passwordEncoder.encode(request.password()))
+                .role(Role.INSTRUCTOR)
+                .studyFormat(request.specialization())
+                .phoneNumber(request.phoneNumber())
+                .build();
+
+        user.setAccount(account);
+        repository.save(account);
+        return InstructorResponse.builder()
+                .id(account.getId())
+                .fullName(user.getFirstName() +" "+ user.getLastName())
+                .phoneNumber(account.getPhoneNumber())
+                .email(account.getEmail())
+                .password(account.getPassword())
+                .gender(user.getGender())
+                .specialization(account.getStudyFormat())
+                .build();
+    }
+
+    @Override
+    public List<InstructorResponse> getAllInstructors() {
+        return instructorRepository.getAllInstructors();
+    }
+
+    @Override
+    public InstructorResponse getInstructorById(Long id) {
+        return instructorRepository.getInstructorById(id).orElseThrow(() ->
+                new NotFoundException(String.format("Instructor with id: %s not found!", id)));
+    }
+
+    @Override
+    public InstructorResponse updateInstructor(Long id, InstructorRequest request) {
+        Account instructor = repository.findById(id).orElseThrow(() ->
+                new NotFoundException(String.format("Instructor with id: %s not found!", id)));
+        User user = userRepository.findById(instructor.getUser().getId()).orElseThrow(() ->
+                new NotFoundException(String.format("User with id: %s not found!", instructor.getUser().getId())));
+
+        if(!instructor.getEmail().equals(request.email()))
+            if (repository.existsAccountByEmail(request.email()))
+                throw new AlreadyExistException("Sorry, this email already register. Please try a different email or login to your existing account !");
+
+        if(!instructor.getPhoneNumber().equals(request.phoneNumber()))
+            if (repository.existsAccountByPhoneNumber(request.phoneNumber()))
+                throw new AlreadyExistException("Sorry, this phone number already register. Please try a different phone number or login to your existing account !");
+
+        if (request.firstName() != null) user.setFirstName(request.firstName());
+        if (request.lastname() != null) user.setLastName(request.lastname());
+        if (request.gender() != null) user.setGender(request.gender());
+        if (request.email() != null) instructor.setEmail(request.email());
+        if (request.phoneNumber() != null) instructor.setPhoneNumber(request.phoneNumber());
+        if (request.specialization() != null) instructor.setStudyFormat(request.specialization());
+
+        return InstructorResponse.builder()
+                .id(instructor.getId())
+                .fullName(user.getFirstName() +" "+ user.getLastName())
+                .email(instructor.getEmail())
+                .phoneNumber(instructor.getPhoneNumber())
+                .password(instructor.getPassword())
+                .gender(user.getGender())
+                .specialization(instructor.getStudyFormat())
+                .build();
+    }
+
+    @Override
+    public String deleteInstructor(Long id) {
+        Account instructor = repository.findById(id).orElseThrow(() ->
+                new NotFoundException(String.format("Instructor with id: %s not found!", id)));
+        repository.delete(instructor);
+        return String.format("Instructor with id: %s successfully deleted !", id);
+    }
 }
