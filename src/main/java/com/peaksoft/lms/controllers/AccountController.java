@@ -3,8 +3,10 @@ package com.peaksoft.lms.controllers;
 import com.peaksoft.lms.dto.requests.auth.AuthRequest;
 import com.peaksoft.lms.dto.requests.auth.ForgotRequest;
 import com.peaksoft.lms.dto.requests.auth.ResetRequest;
+import com.peaksoft.lms.dto.requests.instructor.InstructorRequest;
 import com.peaksoft.lms.dto.requests.student.StudentRequest;
 import com.peaksoft.lms.dto.responses.auth.AuthResponse;
+import com.peaksoft.lms.dto.responses.instructor.InstructorResponse;
 import com.peaksoft.lms.dto.responses.student.StudentsResponse;
 import com.peaksoft.lms.services.AccountService;
 import jakarta.validation.Valid;
@@ -59,7 +61,7 @@ public class AccountController {
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN','INSTRUCTOR','STUDENT')")
-    @QueryMapping(name = "getStudentById")
+    @QueryMapping(name = "getStudent")
     public StudentsResponse getStudentById(@Argument Long id) {
         return accountService.getStudentById(id);
     }
@@ -74,5 +76,37 @@ public class AccountController {
     @MutationMapping(name = "deleteStudent")
     public String deleteStudent(@Argument Long id) {
         return accountService.deleteStudent(id);
+    }
+
+    // TODO Instructor CRUD
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @MutationMapping(name = "saveInstructor")
+    public InstructorResponse saveInstructor(@Argument @Valid InstructorRequest request) {
+        return accountService.saveInstructor(request);
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN','INSTRUCTOR')")
+    @QueryMapping(name = "getInstructors")
+    public List<InstructorResponse> getInstructors() {
+        return accountService.getAllInstructors();
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN','INSTRUCTOR')")
+    @QueryMapping(name = "getInstructor")
+    public InstructorResponse getInstructorById(@Argument Long id) {
+        return accountService.getInstructorById(id);
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @MutationMapping(name = "updateInstructor")
+    public InstructorResponse updateInstructor(@Argument @Valid InstructorRequest request, @Argument Long id) {
+        return accountService.updateInstructor(id, request);
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @MutationMapping(name = "deleteInstructor")
+    public String deleteInstructor(@Argument Long id) {
+        return accountService.deleteInstructor(id);
     }
 }

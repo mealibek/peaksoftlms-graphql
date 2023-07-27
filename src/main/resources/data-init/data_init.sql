@@ -42,10 +42,10 @@ values (NULL, now(), 1, now(), NULL, 1, 'admin@gmail.com',
         NULL),                                        --> Admin123
        (1, now(), 2, now(), NULL, 2, 'aijamal@gmail.com',
         '$2a$12$n1qSRtu489GIvBeKV/A/XekXrLbR4M6G92ganL5ofthn7lHe3wWhS', '+996123456789', NULL, 'INSTRUCTOR',
-        NULL),                                        --> Aijamal123
+        'ONLINE'),                                        --> Aijamal123
        (2, now(), 3, now(), NULL, 3, 'mukhammed2@gmail.com',
         '$2a$12$/333uTN7T7GYKwfnf3XVgOfl8Y65QLPAD42PqBwg0UXcyANHuuUJ.', '+996321456789', NULL, 'INSTRUCTOR',
-        NULL),                                        --> Mukhammed123
+        'OFFLINE'),                                        --> Mukhammed123
        (1, now(), 4, now(), 1, 4, 'nurik@gmail.com', '$2a$12$N/EEH3DmLu.S7t0SXM95Ce9pO7c3FDSwt.HWobetrfOSmvwK8cMT2',
         '+996543876678', NULL, 'STUDENT', 'OFFLINE'), --> Nurik123
        (1, now(), 5, now(), 2, 5, 'ilim@gmail.com', '$2a$12$F4i1HCVS3ibQwJCqRiXoQehT9CMZRkjzD.wQrvIeJiDXizpufIBLa',

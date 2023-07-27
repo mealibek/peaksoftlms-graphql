@@ -26,6 +26,10 @@ type Query {
     #TODO Task
     getTasks : [TaskResponse]!
     getTask(id:ID!) : TaskResponse!
+
+    #TODO Instructor
+    getInstructors: [InstructorResponse]!
+    getInstructor(id: ID!) : InstructorResponse!
 }
 
 type Mutation {
@@ -66,11 +70,15 @@ type Mutation {
     updateLesson(id:ID! request:LessonRequest!):LessonResponse!
     deleteLesson(id:ID!):String !
 
-
     # TODO Task
     saveTask(request:TaskRequest!):TaskResponse!
     updateTask(id:ID! request:TaskRequest):TaskResponse!
     deleteTask(id:ID!) : String!
+
+    # TODO Instructor
+    saveInstructor(request: InstructorRequest!): InstructorResponse!
+    updateInstructor(id:ID! request: InstructorRequest!): InstructorResponse!
+    deleteInstructor(id:ID): String!
 }
 
 
