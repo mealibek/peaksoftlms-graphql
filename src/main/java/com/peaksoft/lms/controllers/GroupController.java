@@ -36,7 +36,7 @@ public class GroupController {
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN','STUDENT','INSTRUCTOR')")
-    @QueryMapping(name = "getGroupById")
+    @QueryMapping(name = "getGroup")
     public GroupResponse getById(@Argument Long id) {
         return groupService.getById(id);
     }

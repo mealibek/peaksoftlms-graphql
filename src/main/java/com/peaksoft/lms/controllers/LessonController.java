@@ -34,7 +34,7 @@ public class LessonController {
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN','INSTRUCTOR','STUDENT')")
-    @QueryMapping(name = "getLessonById")
+    @QueryMapping(name = "getLesson")
     public LessonResponse getLessonById(@Argument Long id) {
         return lessonService.getById(id);
     }

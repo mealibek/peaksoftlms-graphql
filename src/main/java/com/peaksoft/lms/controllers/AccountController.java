@@ -36,12 +36,12 @@ public class AccountController {
         return accountService.signIn(request);
     }
 
-    @MutationMapping
+    @MutationMapping(name = "forgotPassword")
     public AuthResponse forgotPassword(@Argument @Valid ForgotRequest request) {
         return accountService.forgotPassword(request);
     }
 
-    @MutationMapping
+    @MutationMapping(name = "resetPassword")
     public AuthResponse resetPassword(@Argument @Valid ResetRequest request) {
         return accountService.resetPassword(request);
     }

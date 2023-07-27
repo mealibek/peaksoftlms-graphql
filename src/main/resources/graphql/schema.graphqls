@@ -21,7 +21,7 @@ type Query {
 
     # TODO Lesson
     getLessons: [LessonsResponse]!
-    getLesson(id : ID!) : LessonResponse
+    getLesson(id : ID!) : LessonResponse!
 
     #TODO Task
     getTasks : [TaskResponse]!
