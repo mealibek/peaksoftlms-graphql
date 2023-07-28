@@ -48,6 +48,8 @@ type Mutation {
     saveGroup(request: GroupRequest!): GroupResponse
     updateGroup(id: ID!,request: GroupRequest): GroupResponse
     deleteGroup(id: ID!): String!
+    assignGroupToCourse(groupId:ID! courseId:ID!) : String!
+    absolveGroupFromCourse(groupId:ID! courseId:ID!) : String!
 
     # TODO Student
     saveStudent(request : StudentRequest!): StudentsResponse

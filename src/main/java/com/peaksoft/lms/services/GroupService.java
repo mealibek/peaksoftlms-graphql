@@ -17,4 +17,7 @@ public interface GroupService {
   GroupResponse update(Long id, GroupRequest request);
 
   String delete(Long id);
+
+  String assignGroupToCourse(Long groupId,Long courseId);
+  String absolveGroupFromCourse(Long groupId,Long courseId);
 }

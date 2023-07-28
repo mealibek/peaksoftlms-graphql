@@ -52,4 +52,16 @@ public class GroupController {
     public String delete(@Argument Long id) {
         return groupService.delete(id);
     }
+
+    @MutationMapping(name = "assignGroupToCourse")
+    @PreAuthorize("hasAnyAuthority('ADMIN','INSTRUCTOR')")
+    public String assignGroupToCourse(@Argument Long groupId,@Argument Long courseId){
+        return groupService.assignGroupToCourse(groupId,courseId);
+    }
+
+    @MutationMapping(name = "absolveGroupFromCourse")
+    @PreAuthorize("hasAnyAuthority('ADMIN','INSTRUCTOR')")
+    public String absolveGroupFromCourse(@Argument Long groupId,@Argument Long courseId){
+        return groupService.absolveGroupFromCourse(groupId,courseId);
+    }
 }

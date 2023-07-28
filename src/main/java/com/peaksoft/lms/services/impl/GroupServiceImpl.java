@@ -4,9 +4,12 @@ import com.peaksoft.lms.dto.requests.group.GroupRequest;
 import com.peaksoft.lms.dto.responses.group.GroupResponse;
 import com.peaksoft.lms.dto.responses.group.GroupsResponse;
 import com.peaksoft.lms.enums.FileType;
+import com.peaksoft.lms.exceptions.AlreadyExistException;
 import com.peaksoft.lms.exceptions.NotFoundException;
+import com.peaksoft.lms.models.Course;
 import com.peaksoft.lms.models.File;
 import com.peaksoft.lms.models.Group;
+import com.peaksoft.lms.repositories.CourseRepository;
 import com.peaksoft.lms.repositories.GroupRepository;
 import com.peaksoft.lms.repositories.custom.CustomGroupRepository;
 import com.peaksoft.lms.services.GroupService;
@@ -25,6 +28,7 @@ public class GroupServiceImpl implements GroupService {
 
     private final GroupRepository repository;
     private final CustomGroupRepository groupCustomRepository;
+    private final CourseRepository courseRepository;
 
     @Override
     public GroupResponse save(GroupRequest request) {
@@ -93,5 +97,56 @@ public class GroupServiceImpl implements GroupService {
         }
         repository.deleteById(id);
         return "Group with id %s successfully deleted.".formatted(id);
+    }
+
+    @Override
+    public String assignGroupToCourse(Long groupId, Long courseId) {
+        Course course = courseRepository.findById(courseId).orElseThrow(
+            () -> new NotFoundException("Course with id " + courseId + " not found.")
+        );
+        Group group = repository.findById(groupId).orElseThrow(
+            () -> new NotFoundException("Group with id " + groupId + " not found.")
+        );
+
+        for (Group courseGroup : course.getGroups()) {
+            if(courseGroup.getCourse().getId().equals(group.getId()))
+                throw new AlreadyExistException("Group with id " + groupId + " already exists in this course");
+        }
+
+        if(group.getCourse() != null)
+            throw new AlreadyExistException("Course with id " +group.getCourse().getId() + " already exists in this group");
+
+        course.getGroups().add(group);
+        group.setCourse(course);
+
+        courseRepository.save(course);
+        repository.save(group);
+
+        return String.format(
+            "Group ( %s ) is SUCCESSFULLY ASSIGNED to ( %s ) COURSE."
+        ,group.getName(),course.getName());
+    }
+
+    @Override
+    public String absolveGroupFromCourse(Long groupId, Long courseId) {
+        Course course = courseRepository.findById(courseId).orElseThrow(
+            () -> new NotFoundException("Course with id " + courseId + " not found.")
+        );
+        Group group = repository.findById(groupId).orElseThrow(
+            () -> new NotFoundException("Group with id " + groupId + " not found.")
+        );
+
+        // remove group from courseGroups if id comes equal
+        course.getGroups().removeIf(courseGroup -> courseGroup.getCourse().getId().equals(group.getId()));
+
+        if (group.getCourse() != null && group.getCourse().getId().equals(course.getId()))
+            group.setCourse(null);
+
+        repository.save(group);
+        courseRepository.save(course);
+
+        return String.format(
+            "Group ( %s ) is SUCCESSFULLY ABSOLVED from ( %s ) COURSE."
+            ,group.getName(),course.getName());
     }
 }
