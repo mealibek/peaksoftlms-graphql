@@ -1,5 +1,6 @@
 package com.peaksoft.lms.dto.responses.course;
 
+import com.peaksoft.lms.dto.responses.instructor.InstructorResponse;
 import com.peaksoft.lms.dto.responses.student.StudentsResponse;
 
 import java.util.List;
@@ -20,4 +21,5 @@ public class CourseResponse {
     private LocalDate startDate;
     private String imageUrl;
     private List<StudentsResponse> students;
+    private List<InstructorResponse> instructors;
 }

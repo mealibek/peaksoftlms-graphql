@@ -17,4 +17,5 @@ public class StudentsResponse {
     private StudyFormat studyFormat;
     private String phoneNumber;
     private String email;
+    private String password;
 }
