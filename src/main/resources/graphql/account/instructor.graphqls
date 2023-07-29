@@ -18,7 +18,6 @@ type InstructorResponse {
     fullName: String
     specialization : StudyFormat
     phoneNumber : String
-    gender : Gender
     email: String
     password: String
 }

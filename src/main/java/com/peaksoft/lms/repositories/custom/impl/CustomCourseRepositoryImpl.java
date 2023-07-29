@@ -1,7 +1,9 @@
 package com.peaksoft.lms.repositories.custom.impl;
 
 import com.peaksoft.lms.dto.responses.course.CourseResponse;
+import com.peaksoft.lms.dto.responses.instructor.InstructorResponse;
 import com.peaksoft.lms.dto.responses.student.StudentsResponse;
+import com.peaksoft.lms.enums.Role;
 import com.peaksoft.lms.enums.StudyFormat;
 import com.peaksoft.lms.repositories.custom.CustomCourseRepository;
 
@@ -53,17 +55,19 @@ public class CustomCourseRepositoryImpl implements CustomCourseRepository {
         c.description       AS courseDescription,
         c.start_date    AS courseStartDate,
         f.url           AS fileUrl,
-        s.id            AS sId,
-        a.email         AS sEmail,
-        a.phone_number  AS sPhoneNumber,
-        a.study_format  AS sStudyFormat,
+        u.id            AS uId,
+        a.role          AS role,
+        a.email         AS email,
+        a.phone_number  AS phoneNumber,
+        a.password      AS password,
+        a.study_format  AS studyFormat,
         g.name          AS groupName,
-        CONCAT(s.last_name,' ',s.first_name) AS sFullName
+        CONCAT(u.last_name,' ',u.first_name) AS fullName
         FROM courses c
         LEFT JOIN files f on c.file_id = f.id
-        LEFT JOIN accounts a ON c.id = a.student_group_id
+        LEFT JOIN accounts a ON c.id = a.course_id
         LEFT JOIN groups g ON a.student_group_id = g.id
-        LEFT JOIN users s ON a.user_id = s.id
+        LEFT JOIN users u ON a.user_id = u.id
         WHERE c.id = ?
         """;
 
@@ -75,21 +79,40 @@ public class CustomCourseRepositoryImpl implements CustomCourseRepository {
       courseResponse.setStartDate(resultSet.getDate("courseStartDate").toLocalDate());
       courseResponse.setImageUrl(resultSet.getString("fileUrl"));
 
-        if (resultSet.getObject("sId") != null) {
-            StudentsResponse studentsResponse = new StudentsResponse();
-            studentsResponse.setId(resultSet.getLong("sId"));
-            studentsResponse.setFullName(resultSet.getString("sFullName"));
-            studentsResponse.setGroupName(resultSet.getString("groupName"));
-            studentsResponse.setStudyFormat(
-                StudyFormat.valueOf(resultSet.getString("sStudyFormat")));
-            studentsResponse.setPhoneNumber(resultSet.getString("sPhoneNumber"));
-            studentsResponse.setEmail(resultSet.getString("sEmail"));
-            // ? setting students to course
-            courseResponse.setStudents(Collections.singletonList(studentsResponse));
-            // otherwise it's empty list
+      if (resultSet.getObject("uId") != null) {
+        if (Role.valueOf(resultSet.getString("role")).equals(Role.STUDENT)) {
+          StudentsResponse response = new StudentsResponse();
+          response.setId(resultSet.getLong("uId"));
+          response.setFullName(resultSet.getString("fullName"));
+          response.setGroupName(resultSet.getString("groupName"));
+          response.setStudyFormat(
+              StudyFormat.valueOf(resultSet.getString("studyFormat")));
+          response.setPhoneNumber(resultSet.getString("phoneNumber"));
+          response.setEmail(resultSet.getString("email"));
+          response.setPassword(resultSet.getString("password"));
+
+          courseResponse.setStudents(Collections.singletonList(response));
         } else {
-            courseResponse.setStudents(new ArrayList<>());
+          courseResponse.setStudents(new ArrayList<>());
         }
+
+        if (Role.valueOf(resultSet.getString("role")).equals(Role.INSTRUCTOR)) {
+          InstructorResponse response = new InstructorResponse();
+          response.setId(resultSet.getLong("uId"));
+          response.setFullName(resultSet.getString("fullName"));
+          response.setSpecialization(
+              StudyFormat.valueOf(resultSet.getString("studyFormat")));
+          response.setPhoneNumber(resultSet.getString("phoneNumber"));
+          response.setEmail(resultSet.getString("email"));
+          response.setPassword(resultSet.getString("password"));
+
+          courseResponse.setInstructors(Collections.singletonList(response));
+        } else {
+          courseResponse.setInstructors(new ArrayList<>());
+        }
+      }
+      System.out.println("STUDENTS : " + courseResponse.getStudents());
+      System.out.println("INSTRUCTORS : " + courseResponse.getInstructors());
       return courseResponse;
     }, id).stream().findAny();
   }

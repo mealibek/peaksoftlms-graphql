@@ -7,6 +7,7 @@ type CourseResponse {
     startDate:Date
     imageUrl:String
     students:[StudentsResponse]
+    instructors:[InstructorResponse]
 }
 
 input CourseRequest {
@@ -15,3 +16,4 @@ input CourseRequest {
     startDate:Date!
     imageUrl:String
 }
+
