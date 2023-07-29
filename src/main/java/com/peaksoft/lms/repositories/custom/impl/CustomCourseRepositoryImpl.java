@@ -71,7 +71,7 @@ public class CustomCourseRepositoryImpl implements CustomCourseRepository {
         WHERE c.id = ?
         """;
 
-    return jdbcTemplate.query(sql, (resultSet, i) -> {
+    List<CourseResponse> results = jdbcTemplate.query(sql, (resultSet, i) -> {
       CourseResponse courseResponse = new CourseResponse();
       courseResponse.setId(resultSet.getLong("courseID"));
       courseResponse.setName(resultSet.getString("courseName"));
@@ -79,41 +79,49 @@ public class CustomCourseRepositoryImpl implements CustomCourseRepository {
       courseResponse.setStartDate(resultSet.getDate("courseStartDate").toLocalDate());
       courseResponse.setImageUrl(resultSet.getString("fileUrl"));
 
-      if (resultSet.getObject("uId") != null) {
-        if (Role.valueOf(resultSet.getString("role")).equals(Role.STUDENT)) {
-          StudentsResponse response = new StudentsResponse();
-          response.setId(resultSet.getLong("uId"));
-          response.setFullName(resultSet.getString("fullName"));
-          response.setGroupName(resultSet.getString("groupName"));
-          response.setStudyFormat(
-              StudyFormat.valueOf(resultSet.getString("studyFormat")));
-          response.setPhoneNumber(resultSet.getString("phoneNumber"));
-          response.setEmail(resultSet.getString("email"));
-          response.setPassword(resultSet.getString("password"));
+      List<StudentsResponse> studentResponses = new ArrayList<>();
+      List<InstructorResponse> instructorResponses = new ArrayList<>();
 
-          courseResponse.setStudents(Collections.singletonList(response));
-        } else {
-          courseResponse.setStudents(new ArrayList<>());
+      do {
+        if (resultSet.getObject("uId") != null) {
+          Long uId = resultSet.getLong("uId");
+          String role = resultSet.getString("role");
+          String fullName = resultSet.getString("fullName");
+          String phoneNumber = resultSet.getString("phoneNumber");
+          String email = resultSet.getString("email");
+          String password = resultSet.getString("password");
+          String studyFormat = resultSet.getString("studyFormat");
+
+          if (Role.valueOf(role).equals(Role.STUDENT)) {
+            StudentsResponse response = new StudentsResponse();
+            response.setId(uId);
+            response.setFullName(fullName);
+            response.setGroupName(resultSet.getString("groupName"));
+            response.setStudyFormat(StudyFormat.valueOf(studyFormat));
+            response.setPhoneNumber(phoneNumber);
+            response.setEmail(email);
+            response.setPassword(password);
+            studentResponses.add(response);
+          } else if (Role.valueOf(role).equals(Role.INSTRUCTOR)) {
+            InstructorResponse response = new InstructorResponse();
+            response.setId(uId);
+            response.setFullName(fullName);
+            response.setSpecialization(StudyFormat.valueOf(studyFormat));
+            response.setPhoneNumber(phoneNumber);
+            response.setEmail(email);
+            response.setPassword(password);
+            instructorResponses.add(response);
+          }
         }
+      } while (resultSet.next());
 
-        if (Role.valueOf(resultSet.getString("role")).equals(Role.INSTRUCTOR)) {
-          InstructorResponse response = new InstructorResponse();
-          response.setId(resultSet.getLong("uId"));
-          response.setFullName(resultSet.getString("fullName"));
-          response.setSpecialization(
-              StudyFormat.valueOf(resultSet.getString("studyFormat")));
-          response.setPhoneNumber(resultSet.getString("phoneNumber"));
-          response.setEmail(resultSet.getString("email"));
-          response.setPassword(resultSet.getString("password"));
+      courseResponse.setStudents(studentResponses);
+      courseResponse.setInstructors(instructorResponses);
 
-          courseResponse.setInstructors(Collections.singletonList(response));
-        } else {
-          courseResponse.setInstructors(new ArrayList<>());
-        }
-      }
-      System.out.println("STUDENTS : " + courseResponse.getStudents());
-      System.out.println("INSTRUCTORS : " + courseResponse.getInstructors());
       return courseResponse;
-    }, id).stream().findAny();
+    }, id);
+
+    return results.stream().findFirst();
   }
+
 }
