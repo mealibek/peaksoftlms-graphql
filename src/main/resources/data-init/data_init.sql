@@ -61,46 +61,47 @@ values (1, 2),
        (3, 3),
        (4, 3);
 
-insert into tests(created_at, id, modified_at, name)
-values (now(), 1, now(), 'spring core test'),
-       (now(), 2, now(), 'stream api test'),
-       (now(), 3, now(), 'react and js'),
-       (now(), 4, now(), 'html and css');
+
+insert into lessons(created_at, group_id, id, modified_at, name)
+values (now(), 1, 1, now(),  'spring core'),
+       (now(), 2, 2, now(),  'stream api'),
+       (now(), 3, 3, now(),  'react and js'),
+       (now(), 4, 4, now(),  'html and css');
 
 
-insert into questions(id, test_id, name, option_type)
-values (1, 1, 'What is Spring', 'SINGLE'),
-       (2, 1, 'What is Docker', 'MULTIPLE'),
-       (3, 2, 'What is OOP', 'SINGLE'),
-       (4, 2, 'What is Stream API', 'MULTIPLE'),
-       (5, 3, 'What is React', 'SINGLE'),
-       (6, 3, 'What is JS', 'MULTIPLE'),
-       (7, 4, 'What is html', 'SINGLE'),
-       (8, 4, 'What is css', 'MULTIPLE');
+insert into tests(created_at, id, modified_at, name,lesson_id)
+values (now(), 1, now(), 'spring core test',1),
+       (now(), 2, now(), 'stream api test',2),
+       (now(), 3, now(), 'react and js',3),
+       (now(), 4, now(), 'html and css',4);
 
-insert into options(is_correct, id, question_id, name)
-values (false, 1, 1, 'library'),
-       (true, 2, 1, 'frame work'),
-       (true, 3, 2, 'KIT'),
-       (true, 4, 2, 'Container'),
-       (false, 5, 3, 'i don"t now'),
-       (true, 6, 3, 'Poradigma'),
-       (true, 7, 4, 'Stream'),
-       (true, 8, 4, 'Filter'),
-       (false, 9, 5, 'I dont now'),
-       (true, 10, 5, 'React'),
-       (true, 11, 6, 'JS'),
-       (true, 12, 6, 'Language'),
-       (false, 13, 7, 'I dont now '),
-       (true, 14, 7, 'html'),
-       (true, 15, 8, 'css'),
-       (true, 16, 8, 'CSS');
+insert into questions(id, test_id, name, option_type,question_order)
+values (1, 1, 'What is Spring', 'SINGLE',1),
+       (2, 1, 'What is Docker', 'MULTIPLE',2),
+       (3, 2, 'What is OOP', 'SINGLE',1),
+       (4, 2, 'What is Stream API', 'MULTIPLE',2),
+       (5, 3, 'What is React', 'SINGLE',1),
+       (6, 3, 'What is JS', 'MULTIPLE',2),
+       (7, 4, 'What is html', 'SINGLE',1),
+       (8, 4, 'What is css', 'MULTIPLE',2);
 
-insert into lessons(created_at, group_id, id, modified_at, test_id, name)
-values (now(), 1, 1, now(), 1, 'spring core'),
-       (now(), 2, 2, now(), 2, 'stream api'),
-       (now(), 3, 3, now(), 3, 'react and js'),
-       (now(), 4, 4, now(), 4, 'html and css');
+insert into options(is_correct, id, question_id, name,option_order)
+values (false, 1, 1, 'library',1),
+       (true, 2, 1, 'frame work',2),
+       (true, 3, 2, 'KIT',1),
+       (true, 4, 2, 'Container',2),
+       (false, 5, 3, 'i don"t now',1),
+       (true, 6, 3, 'Poradigma',2),
+       (true, 7, 4, 'Stream',1),
+       (true, 8, 4, 'Filter',2),
+       (false, 9, 5, 'I dont now',1),
+       (true, 10, 5, 'React',2),
+       (true, 11, 6, 'JS',1),
+       (true, 12, 6, 'Language',2),
+       (false, 13, 7, 'I dont now ',1),
+       (true, 14, 7, 'html',2),
+       (true, 15, 8, 'css',1),
+       (true, 16, 8, 'CSS',2);
 
 insert into presentations(id, lesson_id, description, formatppt, name)
 values (1, 1, 'spring core presentation', 'url', 'presentation 1'),

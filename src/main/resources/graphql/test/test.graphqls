@@ -1,0 +1,58 @@
+enum OptionType {
+    SINGLE
+    MULTIPLE
+}
+
+
+input OptionRequest {
+    name:String!
+    isCorrect:Boolean!
+}
+
+input QuestionRequest {
+    order:Int!
+    name:String!
+    optionType:OptionType!
+    options:[OptionRequest]!
+}
+
+input TestRequest {
+    lessonId:ID!
+    name:String!
+    questions:[QuestionRequest]!
+}
+
+
+type ResultResponse {
+    id:ID
+    testId:ID
+    correctAnswers:Int
+    inCorrectAnswers:Int
+    score:PositiveFloat
+    account:AuthResponse
+}
+
+
+type OptionResponse {
+    id:ID
+    order:Int
+    name:String
+    isCorrect:Boolean
+}
+
+type QuestionResponse {
+    id:ID
+    order:Int
+    name:String
+    optionType:OptionType
+    options:[OptionResponse]
+}
+
+type TestResponse {
+    id:ID
+    lessonId:ID
+    name:String
+    questions:[QuestionResponse]
+    isTaken:Boolean
+    result:ResultResponse
+}
