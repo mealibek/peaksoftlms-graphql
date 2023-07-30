@@ -1,3 +1,5 @@
+scalar PositiveFloat
+
 type Query {
     # TODO Course
     getCourses : [CourseResponse]!
@@ -30,6 +32,11 @@ type Query {
     #TODO Instructor
     getInstructors: [InstructorResponse]!
     getInstructor(id: ID!) : InstructorResponse!
+
+
+    #TODO Test
+    getTestByLesson(id:ID!):TestResponse!
+    getTestById(id:ID!) : TestResponse!
 }
 
 type Mutation {
@@ -81,6 +88,11 @@ type Mutation {
     saveInstructor(request: InstructorRequest!): InstructorResponse!
     updateInstructor(id:ID! request: InstructorRequest!): InstructorResponse!
     deleteInstructor(id:ID): String!
-}
 
+
+    #TODO Test
+    saveTest(request:TestRequest!) : TestResponse!
+    updateTest(id:ID! request:TestRequest!) : TestResponse!
+    deleteTest(id:ID!) : String!
+}
 

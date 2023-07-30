@@ -8,6 +8,7 @@ type LessonResponse{
     videoLesson : VideoLessonResponse
     presentations : [PresentationResponse]
     task:TaskResponse
+    tests:[TestResponse]
 }
 
 type LessonsResponse {
@@ -16,5 +17,6 @@ type LessonsResponse {
     videoLesson : String
     presentation : String
     task : String
+    tests:[String]
 }
 

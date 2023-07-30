@@ -35,7 +35,7 @@ public class Lesson {
   private List<Presentation> presentations;
   @OneToOne(cascade = ALL, mappedBy = "lesson")
   private Task task;
-  @OneToOne(cascade = ALL)
+  @OneToOne(cascade = ALL,mappedBy = "lesson")
   private Test test;
   private LocalDateTime createdAt;
   private LocalDateTime modifiedAt;

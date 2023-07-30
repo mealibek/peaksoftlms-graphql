@@ -19,6 +19,7 @@ public class Result {
     private Long id;
     private Integer countCorrect;
     private Integer countInCorrect;
+    private Float score;
     @ManyToOne(cascade = {PERSIST, MERGE, DETACH, REFRESH})
     private Account account;
     @ManyToOne(cascade = {PERSIST, MERGE, DETACH, REFRESH})

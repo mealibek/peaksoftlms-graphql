@@ -26,7 +26,7 @@ public class Test {
   private String name;
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "test")
   private List<Question> questions;
-  @OneToOne(cascade = {PERSIST, MERGE, DETACH, REFRESH}, mappedBy = "test")
+  @OneToOne(cascade = {PERSIST, MERGE, DETACH, REFRESH})
   private Lesson lesson;
   private LocalDateTime createdAt;
   private LocalDateTime modifiedAt;
