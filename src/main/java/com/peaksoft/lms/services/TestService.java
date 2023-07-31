@@ -9,7 +9,7 @@ public interface TestService {
 
   TestResponse save(TestRequest request);
   TestResponse update(Long id,TestRequest request);
-  List<TestResponse> getTestsByLesson(Long lessonId,Authentication authentication);
+  List<TestResponse> getTestsByLesson(Long id,Authentication authentication);
   TestResponse getById(Long id);
   String delete(Long id);
 }

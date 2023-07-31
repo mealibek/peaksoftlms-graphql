@@ -35,14 +35,16 @@ public class TestServiceImpl implements TestService {
   }
 
   @Override
-  public List<TestResponse> getTestsByLesson(Long lessonId,Authentication authentication) {
+  public List<TestResponse> getTestsByLesson(Long id, Authentication authentication) {
     Account account = (Account) authentication.getPrincipal();
-    return customTestRepository.getTestsByLesson(lessonId, account.getId());
+    return customTestRepository.getTestsByLesson(id, account.getId());
   }
 
   @Override
   public TestResponse getById(Long id) {
-    return customTestRepository.getTestById(id);
+    return customTestRepository.getTestById(id).orElseThrow(
+        () -> new NotFoundException("Test with id " + id + " not found")
+    );
   }
 
   @Override

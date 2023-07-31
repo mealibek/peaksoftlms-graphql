@@ -1,4 +1,4 @@
-scalar PositiveFloat
+scalar NonNegativeFloat
 
 type Query {
     # TODO Course
@@ -35,8 +35,8 @@ type Query {
 
 
     #TODO Test
-    getTestByLesson(id:ID!):TestResponse!
-    getTestById(id:ID!) : TestResponse!
+    getTestsByLesson(id:ID!):[TestResponse]!
+    getTest(id:ID!) : TestResponse!
 }
 
 type Mutation {
