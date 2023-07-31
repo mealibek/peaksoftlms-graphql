@@ -35,12 +35,12 @@ public class TestController {
 
   @QueryMapping(name = "getTestsByLesson")
   @PreAuthorize("hasAnyAuthority('ADMIN','INSTRUCTOR','STUDENT')")
-  public List<TestResponse> getTestsByLesson(@Argument Long lessonId,Authentication authentication) {
-    return testService.getTestsByLesson(lessonId, authentication);
+  public List<TestResponse> getTestsByLesson(@Argument Long id,Authentication authentication) {
+    return testService.getTestsByLesson(id, authentication);
   }
 
   @QueryMapping(name = "getTest")
-  @PreAuthorize("hasAnyAuthority('ADMIN','INSTRUCTOR','STUDENT')")
+  @PreAuthorize("hasAnyAuthority('ADMIN','INSTRUCTOR')")
   public TestResponse getTest(@Argument Long id) {
     return testService.getById(id);
   }

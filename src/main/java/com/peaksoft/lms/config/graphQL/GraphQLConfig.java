@@ -12,6 +12,6 @@ public class GraphQLConfig {
   public RuntimeWiringConfigurer runtimeWiringConfigurer() {
     return wiringBuilder -> wiringBuilder
         .scalar(ExtendedScalars.Date)
-        .scalar(ExtendedScalars.PositiveFloat);
+        .scalar(ExtendedScalars.NonNegativeFloat);
   }
 }

@@ -28,7 +28,7 @@ type ResultResponse {
     testId:ID
     correctAnswers:Int
     inCorrectAnswers:Int
-    score:PositiveFloat
+    score:NonNegativeFloat
     account:AuthResponse
 }
 
@@ -52,7 +52,7 @@ type TestResponse {
     id:ID
     lessonId:ID
     name:String
-    questions:[QuestionResponse]
+    questions:[QuestionResponse]!
     isTaken:Boolean
     result:ResultResponse
 }
